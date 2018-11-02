@@ -154,9 +154,17 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${PODS_ROOT}/../.symlinks/flutter/ios/Flutter.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/camera/camera.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/location/location.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/video_player/video_player.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${PODS_ROOT}/../.symlinks/flutter/ios/Flutter.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/camera/camera.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/location/location.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/video_player/video_player.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait
