@@ -1,4 +1,4 @@
-class FormValadation {
+class FormValidation {
 	String passwordNotMatched(var textbox, String value) {
 		String strMsg;
 		if ((value != textbox.text)) strMsg = "Password did not match";
