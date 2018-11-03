@@ -12,7 +12,7 @@ class SplashLayout extends State<Splash> {
   Widget build(BuildContext context) {
     return new SplashScreen(
       seconds: 7,
-      navigateAfterSeconds: 'Layouts/SignUpLayout',
+      navigateAfterSeconds: 'Layouts/SignInLayout',
       title: new Text(
 	      'We Volunter For',
 	      style: new TextStyle(

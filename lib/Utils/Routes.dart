@@ -4,6 +4,7 @@ import 'package:vv4/Layouts/SplashLayout.dart';
 import 'package:vv4/Layouts/SignInLayout.dart';
 import 'package:vv4/Layouts/ShoutForFood.dart';
 import 'package:vv4/Layouts/ShoutForFoodPreview.dart';
+import 'package:vv4/Layouts/SpotHunger.dart';
 
 
 final routes = {
@@ -11,8 +12,9 @@ final routes = {
 	'Layouts/SignInLayout':         (BuildContext context) => new SignIn(),
 	'Layouts/SplashLayout':         (BuildContext context) => new Splash(),
 	'Layouts/ShoutForFood':         (BuildContext context) => new ShoutForFood(),
+	'Layouts/SpotHungerLayout':     (BuildContext context) => new SpotHunger(),
 	'Layouts/ShoutForFoodPreview':  (BuildContext context) => new ShoutForFoodPreview(),
-	'/'                   :          (BuildContext context) => new Splash(),
+	'/'                   :         (BuildContext context) => new Splash(),
 
 };
 

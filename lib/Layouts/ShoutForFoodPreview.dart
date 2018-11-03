@@ -4,10 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:camera/camera.dart';
+import 'package:vv4/Data/DataSource.dart';
+import 'package:vv4/Utils/FormValidation.dart';
+import 'package:vv4/main.dart';
 
 class ShoutForFoodPreview extends StatefulWidget {
-  String image;
-  ShoutForFoodPreview({this.image});
+  String imagePath;
+  ShoutForFoodPreview({this.imagePath});
   @override
   ShoutForFoodPreviewState createState() => new ShoutForFoodPreviewState();
 }
@@ -17,6 +20,9 @@ List<CameraDescription> cameras;
 class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
   bool bAutoValidate = false;
   var varNoOfHungers = new TextEditingController();
+  FormValidation oFormValadation = new FormValidation();
+  final GlobalKey<FormState> frmKey = GlobalKey<FormState>();
+  var strNoOFHungers = new TextEditingController();
 
   //Location
   Map<String, double> m_startLocation;
@@ -63,33 +69,33 @@ class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets;
-
-    final noHungers = TextFormField(
-      keyboardType: TextInputType.number,
-      controller: varNoOfHungers,
-      maxLines: 1,
-      keyboardAppearance: Brightness.dark,
-      autofocus: false,
-      decoration: InputDecoration(
-        hintText: 'No Of Hunger People',
-        fillColor: Colors.white,
-        labelText: 'No Of Hunger People',
-        contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+    final noHungers = new Padding(
+      padding: EdgeInsets.only(left: 24.0, right: 24.0),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        controller: varNoOfHungers,
+        maxLines: 1,
+        keyboardAppearance: Brightness.dark,
+        autofocus: false,
+        decoration: InputDecoration(
+          hintText: 'No Of Hunger People',
+          fillColor: Colors.white,
+          labelText: 'No Of Hunger People',
+          contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+        ),
+        validator: (value) {
+          String strValidationMessage;
+          if (value.isNotEmpty) {
+          } else
+            strValidationMessage = "please enter User Mail-Id/Username ";
+          return strValidationMessage;
+        },
       ),
-      validator: (value) {
-        String strValidationMessage;
-        if (value.isNotEmpty) {
-        } //strValidationMessage = oFormValadation.emailNotMatched(value);
-        else
-          strValidationMessage = "please enter User Mail-Id/Username ";
-        return strValidationMessage;
-      },
     );
 
     final buttonShout = Padding(
-      padding: EdgeInsets.symmetric(vertical: 0.0),
+      padding: EdgeInsets.only(left: 24.0, right: 24.0),
       child: Material(
         borderRadius: BorderRadius.circular(0.0),
         shadowColor: Colors.lightBlueAccent.shade100,
@@ -100,7 +106,15 @@ class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
           color: Colors.blueGrey,
           child: Text('Shout', style: TextStyle(color: Colors.white)),
           onPressed: () {
-            // Navigator.of(context).pushNamed(HomePage.tag);
+            if (frmKey.currentState.validate()) {
+            	File imageFile=File(widget.imagePath.toString());
+            	String strLatitude=m_currentLocation['latitude'].toString();
+            	String strLongitude=m_currentLocation['longitude'].toString();
+            	String strGeoLocation="'"+strLatitude+"&"+strLongitude+"'";
+            	String strHungersCount=varNoOfHungers.text;
+              MyApp.m_oDataSource_main.spottedHunger(
+                  context, strGeoLocation,strHungersCount,imageFile);
+            }
           },
         ),
       ),
@@ -115,18 +129,17 @@ class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
       body: new Container(
         child: Form(
           autovalidate: bAutoValidate,
+          key: frmKey,
           child: ListView(
             children: <Widget>[
               SizedBox(
-                child: Image.file(File(widget.image.toString())),
+                child: Image.file(File(widget.imagePath.toString())),
                 width: 300.0,
               ),
               new Row(
                 children: <Widget>[
                   new Text(
-                   '${m_currentLocation != null
-                        ? 'Longitude: $m_currentLocation[latitude]\n'
-                        : 'Error: $m_strError'}',
+                    '${m_currentLocation != null ? 'Longitude: ${m_currentLocation['latitude']}\n' : 'Error: $m_strError'}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,
@@ -134,11 +147,8 @@ class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   Text(
-                    '${m_currentLocation != null
-                        ? 'Longitude: $m_currentLocation[longitude]'
-                        : 'Error: $m_strError\n'}',
+                    '${m_currentLocation != null ? 'Longitude: ${m_currentLocation['longitude']}' : 'Error: $m_strError\n'}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,
@@ -148,14 +158,11 @@ class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
                   ),
                 ],
               ),
-
               SizedBox(height: 8.0),
               noHungers,
               SizedBox(height: 8.0),
               buttonShout,
-              SizedBox(height: 8.0),
-
-              //changePasswordLabel,
+              SizedBox(height: 24.0),
             ],
           ),
         ), /* add child content content here */

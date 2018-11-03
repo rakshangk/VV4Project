@@ -155,7 +155,7 @@ class ShoutForFoodState extends State<ShoutForFood> {
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (__) => new ShoutForFoodPreview(image:imagePath)));
+                  builder: (__) => new ShoutForFoodPreview(imagePath:imagePath)));
         }
       }
     });

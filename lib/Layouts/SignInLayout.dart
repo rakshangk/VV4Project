@@ -1,10 +1,22 @@
+
 import 'package:flutter/material.dart';
+import 'package:vv4/Data/DataSource.dart';
+import 'package:vv4/Utils/FormValidation.dart';
+import 'package:vv4/Utils/SecurityUtils.dart';
+import 'package:vv4/main.dart';
 
 class SignIn extends StatefulWidget {
   SignInLayout createState() => new SignInLayout();
 }
 
 class SignInLayout extends State<SignIn> {
+  bool bAutoValidate = false;
+  FormValidation oFormValadation = new FormValidation();
+  final GlobalKey<FormState> frmKey = GlobalKey<FormState>();
+  SecurityUtils oSecurityUtils = new SecurityUtils();
+  var strUsername = new TextEditingController();
+  var strPassword = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final labelMessage = Text(
@@ -17,8 +29,9 @@ class SignInLayout extends State<SignIn> {
       ),
     );
 
-    final textboxMobile = TextFormField(
+    final textboxUsername = TextFormField(
       keyboardType: TextInputType.text,
+      controller: strUsername,
       autofocus: true,
       decoration: InputDecoration(
         hintText: 'Mobile Number/Email ID',
@@ -29,11 +42,17 @@ class SignInLayout extends State<SignIn> {
       ),
       validator: (value) {
         String strValidationMessage;
+        if (value.isNotEmpty)
+          strValidationMessage = oFormValadation.emailNotMatched(value);
+        else
+          strValidationMessage = "please enter username ";
         return strValidationMessage;
       },
     );
+
     final textboxPassword = TextFormField(
       keyboardType: TextInputType.text,
+      controller: strPassword,
       obscureText: true,
       autofocus: true,
       decoration: InputDecoration(
@@ -44,11 +63,11 @@ class SignInLayout extends State<SignIn> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
       ),
       validator: (value) {
-        String strValidationMessage;
-        return strValidationMessage;
+        if (value.isEmpty) return "Please enter password...";
       },
     );
-    final buttonSignUp = Padding(
+
+    final buttonSignIn = Padding(
       padding: EdgeInsets.symmetric(vertical: 0.0),
       child: Material(
         borderRadius: BorderRadius.circular(0.0),
@@ -60,11 +79,17 @@ class SignInLayout extends State<SignIn> {
           color: Colors.blueGrey,
           child: Text('Sign In', style: TextStyle(color: Colors.white)),
           onPressed: () {
-            // Navigator.of(context).pushNamed(HomePage.tag);
+            if (frmKey.currentState.validate()) {
+              String strEncryptedPassword =
+                  oSecurityUtils.passwordEncrypt(strPassword.text);
+              MyApp.m_oDataSource_main.login(
+                  context, strUsername.text, strEncryptedPassword.toString());
+            }
           },
         ),
       ),
     );
+
     final buttonHaveAccount = Padding(
       padding: EdgeInsets.symmetric(vertical: 0.0),
       child: Material(
@@ -83,31 +108,31 @@ class SignInLayout extends State<SignIn> {
     );
 
     return new Scaffold(
-	    resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomPadding: false,
       body: new Container(
         decoration: new BoxDecoration(
           image: new DecorationImage(
-            alignment: Alignment.bottomCenter,
-            image: new AssetImage("assets/login_bg.jpeg"),
-            fit: BoxFit.scaleDown
-          ),
+              alignment: Alignment.bottomCenter,
+              image: new AssetImage("assets/login_bg.jpeg"),
+              fit: BoxFit.scaleDown),
         ),
         child: Form(
+          autovalidate: bAutoValidate,
+          key: frmKey,
           child: ListView(
             padding: EdgeInsets.only(left: 24.0, right: 24.0),
             children: <Widget>[
               SizedBox(height: 80.0),
               labelMessage,
               SizedBox(height: 30.0),
-              textboxMobile,
+              textboxUsername,
               SizedBox(height: 8.0),
               textboxPassword,
               SizedBox(height: 8.0),
-              buttonSignUp,
+              buttonSignIn,
               SizedBox(height: 8.0),
               buttonHaveAccount,
               SizedBox(height: 24.0),
-
               //changePasswordLabel,
             ],
           ),

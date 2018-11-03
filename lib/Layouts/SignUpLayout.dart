@@ -9,7 +9,7 @@ class SignUp extends StatefulWidget {
 
 class SignUpLayout extends State<SignUp> {
   final GlobalKey<FormState> frmKey = GlobalKey<FormState>();
-  FormValadation oFormValadation = new FormValadation();
+  FormValidation oFormValidation = new FormValidation();
   bool bAutoValidate = false;
   var varEmail = new TextEditingController();
 
@@ -42,7 +42,7 @@ class SignUpLayout extends State<SignUp> {
       validator: (value) {
         String strValidationMessage;
         if (value.isNotEmpty)
-	        strValidationMessage = oFormValadation.emailNotMatched(value);
+	        strValidationMessage = oFormValidation.emailNotMatched(value);
         else
 	        strValidationMessage = "please enter User Mail-Id/Username ";
         return strValidationMessage;
