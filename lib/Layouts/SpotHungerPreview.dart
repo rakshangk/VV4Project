@@ -17,6 +17,7 @@ class SpotHungerPreview extends StatefulWidget {
 List<CameraDescription> cameras;
 
 class SpotHungerPreviewState extends State<SpotHungerPreview> {
+  
   bool bAutoValidate = false;
   var varNoOfHungers = new TextEditingController();
   FormValidation oFormValadation = new FormValidation();
