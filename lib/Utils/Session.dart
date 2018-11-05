@@ -34,6 +34,7 @@ class Session {
 		print("Data : "+data.toString());
 		var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
 		var length = await imageFile.length();
+		print("Length : "+length.toString());
 		var request = new http.MultipartRequest("POST", Uri.parse(url));
 
 		var multipartFile = new http.MultipartFile('file', stream, length,
@@ -45,11 +46,14 @@ class Session {
 
 		var response = await request.send();
 		print("Status Code : "+response.statusCode.toString());
-		//oDynamicWidgets.showAlertDialog(context, "Image Upload", response.toString());
+		if(response.statusCode==200)
+			oDynamicWidgets.showAlertDialog(context, "Shout for Food", "Hunger Spoted...");
 		response.stream.transform(utf8.decoder).listen((value) {
 			print("Value : "+value);
 		});
 	}
+
+
 
 	void updateCookie(http.Response response) {
 		String rawCookie = response.headers['set-cookie'];

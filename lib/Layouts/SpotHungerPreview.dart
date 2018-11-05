@@ -4,20 +4,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:camera/camera.dart';
-import 'package:vv4/Data/DataSource.dart';
 import 'package:vv4/Utils/FormValidation.dart';
 import 'package:vv4/main.dart';
 
-class ShoutForFoodPreview extends StatefulWidget {
+class SpotHungerPreview extends StatefulWidget {
   String imagePath;
-  ShoutForFoodPreview({this.imagePath});
+  SpotHungerPreview({this.imagePath});
   @override
-  ShoutForFoodPreviewState createState() => new ShoutForFoodPreviewState();
+  SpotHungerPreviewState createState() => new SpotHungerPreviewState();
 }
 
 List<CameraDescription> cameras;
 
-class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
+class SpotHungerPreviewState extends State<SpotHungerPreview> {
   bool bAutoValidate = false;
   var varNoOfHungers = new TextEditingController();
   FormValidation oFormValadation = new FormValidation();
@@ -88,7 +87,7 @@ class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
           String strValidationMessage;
           if (value.isNotEmpty) {
           } else
-            strValidationMessage = "please enter User Mail-Id/Username ";
+            strValidationMessage = "please enter no of Hunger People ";
           return strValidationMessage;
         },
       ),
@@ -104,7 +103,7 @@ class ShoutForFoodPreviewState extends State<ShoutForFoodPreview> {
           minWidth: 200.0,
           height: 50.0,
           color: Colors.blueGrey,
-          child: Text('Shout', style: TextStyle(color: Colors.white)),
+          child: Text('Shout for Food', style: TextStyle(color: Colors.white)),
           onPressed: () {
             if (frmKey.currentState.validate()) {
             	File imageFile=File(widget.imagePath.toString());

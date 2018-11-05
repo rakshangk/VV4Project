@@ -1,16 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:async/async.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:path/path.dart';
 import 'package:vv4/Constants/URLConstants.dart';
 import 'package:vv4/Models/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:vv4/Layouts/SpotHunger.dart';
+import 'package:vv4/Layouts/DashBoard.dart';
 import 'package:vv4/Widgets/DynamicWidgets.dart';
 import 'package:vv4/Utils/Session.dart';
+import 'package:image/image.dart' as Im;
+
 
 class DataSource {
   DynamicWidgets oDynamicWidgets = new DynamicWidgets();
@@ -40,7 +39,7 @@ class DataSource {
       print(response.toString());
       if (response['m_bIsSuccess']) {
         var route = new MaterialPageRoute(
-          builder: (BuildContext context) => new SpotHunger(),
+          builder: (BuildContext context) => new DashBoard(),
         );
         Navigator.of(context).push(route);
       } else {
@@ -50,9 +49,19 @@ class DataSource {
     });
   }
 
-  Future<User> spottedHunger(
-      BuildContext context, String strGeoLocation, String nHungersCount,File imageFile) async {
-    oSession.doMultipartRequest(context,URLConstants.strSpotedHunger, {"spotData": "{'m_strGeoLocation':$strGeoLocation,'m_nHungersCount':$nHungersCount}"}, imageFile);
-  }
 
+
+  Future<User> spottedHunger(BuildContext context, String strGeoLocation,
+      String nHungersCount, File imageFile) async {
+    Im.Image image = Im.decodeImage(imageFile.readAsBytesSync());
+    var compressedImage = new File(imageFile.path)..writeAsBytesSync(Im.encodeJpg(image, quality: 25));
+    oSession.doMultipartRequest(
+        context,
+        URLConstants.strSpotedHunger,
+        {
+          "spotData":
+              "{'m_strGeoLocation':$strGeoLocation,'m_nHungersCount':$nHungersCount}"
+        },
+        compressedImage);
+  }
 }
