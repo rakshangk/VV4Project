@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:vv4/Constants/URLConstants.dart';
+import 'package:vv4/Layouts/ViewHunger.dart';
+import 'package:vv4/Models/SpottedList.dart';
 import 'package:vv4/Models/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -64,4 +66,13 @@ class DataSource {
         },
         compressedImage);
   }
+
+ /* Future<List<SpottedList>> fetchHungerList(BuildContext context) async {
+    http.Response response = await http.get(
+        URLConstants.strSpotedList);
+    var responseJson = json.decode(response.body);
+    return (responseJson as List)
+        .map((p) => SpottedList.fromJson(p))
+        .toList();
+  }*/
 }

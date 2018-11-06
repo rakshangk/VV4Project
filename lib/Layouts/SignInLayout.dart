@@ -19,6 +19,8 @@ class SignInLayout extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+
+
     final labelMessage = Text(
       'Sign In',
       textAlign: TextAlign.center,
@@ -37,8 +39,8 @@ class SignInLayout extends State<SignIn> {
         hintText: 'Mobile Number/Email ID',
         fillColor: Colors.white,
         labelText: 'Mobile Number/Email ID',
-        contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
       validator: (value) {
         String strValidationMessage;
@@ -59,8 +61,8 @@ class SignInLayout extends State<SignIn> {
         hintText: 'Password',
         fillColor: Colors.white,
         labelText: 'Password',
-        contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
       validator: (value) {
         if (value.isEmpty) return "Please enter password...";
@@ -75,8 +77,8 @@ class SignInLayout extends State<SignIn> {
         elevation: 5.0,
         child: MaterialButton(
           minWidth: 200.0,
-          height: 50.0,
-          color: Colors.blueGrey,
+          height: 60.0,
+          color: Color.fromRGBO(64, 75, 96, .9),
           child: Text('Sign In', style: TextStyle(color: Colors.white)),
           onPressed: () {
             if (frmKey.currentState.validate()) {

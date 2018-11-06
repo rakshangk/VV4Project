@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'VV4',
       theme: new ThemeData(
-        primarySwatch: Colors.blueGrey,
+
       ),
       routes: routes,
     );

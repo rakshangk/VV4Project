@@ -69,6 +69,18 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
 
   @override
   Widget build(BuildContext context) {
+	  final topAppBar = AppBar(
+		  elevation: 0.1,
+		  backgroundColor: Color.fromRGBO(64, 75, 96, .9),
+		  title: Text('Spot Hunger Preview'),
+		  actions: <Widget>[
+			  IconButton(
+				  icon: Icon(Icons.list),
+				  onPressed: () {},
+			  )
+		  ],
+	  );
+
     final noHungers = new Padding(
       padding: EdgeInsets.only(left: 24.0, right: 24.0),
       child: TextFormField(
@@ -81,8 +93,8 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
           hintText: 'No Of Hunger People',
           fillColor: Colors.white,
           labelText: 'No Of Hunger People',
-          contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+          contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         ),
         validator: (value) {
           String strValidationMessage;
@@ -102,8 +114,8 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
         elevation: 5.0,
         child: MaterialButton(
           minWidth: 200.0,
-          height: 50.0,
-          color: Colors.blueGrey,
+          height: 60.0,
+          color: Color.fromRGBO(64, 75, 96, .9),
           child: Text('Shout for Food', style: TextStyle(color: Colors.white)),
           onPressed: () {
             if (frmKey.currentState.validate()) {
@@ -122,9 +134,7 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
 
     return new Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        title: const Text('Shout For Food'),
-      ),
+      appBar: topAppBar,
       resizeToAvoidBottomPadding: true,
       body: new Container(
         child: Form(
@@ -135,28 +145,6 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
               SizedBox(
                 child: Image.file(File(widget.imagePath.toString())),
                 width: 300.0,
-              ),
-              new Row(
-                children: <Widget>[
-                  new Text(
-                    '${m_currentLocation != null ? 'Longitude: ${m_currentLocation['latitude']}\n' : 'Error: $m_strError'}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    '${m_currentLocation != null ? 'Longitude: ${m_currentLocation['longitude']}' : 'Error: $m_strError\n'}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
               ),
               SizedBox(height: 8.0),
               noHungers,

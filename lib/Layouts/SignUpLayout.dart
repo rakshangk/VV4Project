@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:vv4/Utils/FormValidation.dart';
 
-
 class SignUp extends StatefulWidget {
   SignUpLayout createState() => new SignUpLayout();
 }
@@ -12,7 +11,6 @@ class SignUpLayout extends State<SignUp> {
   FormValidation oFormValidation = new FormValidation();
   bool bAutoValidate = false;
   var varEmail = new TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +31,18 @@ class SignUpLayout extends State<SignUp> {
       keyboardAppearance: Brightness.dark,
       autofocus: false,
       decoration: InputDecoration(
-	      hintText: 'Email Id',
+        hintText: 'Email Id',
         fillColor: Colors.white,
         labelText: 'Email Id',
-        contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
       ),
       validator: (value) {
         String strValidationMessage;
         if (value.isNotEmpty)
-	        strValidationMessage = oFormValidation.emailNotMatched(value);
+          strValidationMessage = oFormValidation.emailNotMatched(value);
         else
-	        strValidationMessage = "please enter User Mail-Id/Username ";
+          strValidationMessage = "please enter User Mail-Id/Username ";
         return strValidationMessage;
       },
     );
@@ -57,7 +55,7 @@ class SignUpLayout extends State<SignUp> {
         child: MaterialButton(
           minWidth: 200.0,
           height: 50.0,
-          color: Colors.blueGrey,
+          color: Color.fromRGBO(64, 75, 96, .9),
           child: Text('Sign Up', style: TextStyle(color: Colors.white)),
           onPressed: () {
             if (frmKey.currentState.validate()) {}
@@ -66,23 +64,6 @@ class SignUpLayout extends State<SignUp> {
       ),
     );
 
-    final buttonCameraAccess = Padding(
-      padding: EdgeInsets.symmetric(vertical: 0.0),
-      child: Material(
-        borderRadius: BorderRadius.circular(0.0),
-        shadowColor: Colors.lightBlueAccent.shade100,
-        elevation: 5.0,
-        child: MaterialButton(
-          minWidth: 200.0,
-          height: 50.0,
-          color: Colors.blueGrey,
-          child: Text('Capture Image', style: TextStyle(color: Colors.white)),
-          onPressed: () {
-            Navigator.of(context).pushNamed('Layouts/ShoutForFood');
-          },
-        ),
-      ),
-    );
 
     final buttonHaveAccount = Padding(
       padding: EdgeInsets.symmetric(vertical: 0.0),
@@ -91,7 +72,7 @@ class SignUpLayout extends State<SignUp> {
         elevation: 0.0,
         child: MaterialButton(
           minWidth: 200.0,
-          height: 50.0,
+          height: 60.0,
           child: Text('Already have an account?',
               style: TextStyle(color: Colors.red)),
           onPressed: () {
@@ -124,7 +105,6 @@ class SignUpLayout extends State<SignUp> {
               SizedBox(height: 8.0),
               buttonSignUp,
               SizedBox(height: 8.0),
-              buttonCameraAccess,
               SizedBox(height: 8.0),
               buttonHaveAccount,
               SizedBox(height: 24.0),
