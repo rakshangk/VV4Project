@@ -12,19 +12,18 @@ class Session {
 	Map<String, String> headers = {};
 
 	Future<Map> get(String url) async {
+    print("Headers Inside Post : "+headers.toString());
 		http.Response response = await http.get(url, headers: headers);
 		updateCookie(response);
 		return json.decode(response.body);
 	}
 
 	Future<Map> post(String url, dynamic data,dynamic headerParam) async {
-
 		if(headerParam!=null){
 			headers=headerParam;
 		}
 		print("Headers Inside Post : "+headers.toString());
 		http.Response response = await http.post(url, body: data, headers: headers);
-
 		updateCookie(response);
 		return json.decode(response.body);
 	}

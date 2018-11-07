@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vv4/Models/SpottedList.dart';
 
-
 class HungerItemList extends StatefulWidget {
   final SpottedList m_oSpottedList;
 
@@ -35,41 +34,39 @@ class HungerItemListState extends State<HungerItemList> {
           ),
         ),
         title: Text(
-          'No of Hungers : '+oSpottedList.m_strHungersCount,
+          'No of Hungers : ' + oSpottedList.m_HungersCount,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-
-
         subtitle: Column(
-	        children: <Widget>[
-		        Row(
-			        children: <Widget>[
-				        Text(
-					        'Distance : '+oSpottedList.m_strDistance,
-					        style:
-					        TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-				        ),
-
-			        ],
-		        ),
-		        Row(
-				        children: <Widget>[
-					        Text('Address : ' + oSpottedList.m_strAddress,
-							        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
-				        ],
-		        ),
-	        ],
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  'Distance : ' + oSpottedList.m_strDistance,
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text('Address : ' + oSpottedList.m_strAddress,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold))
+              ],
+            ),
+          ],
         ),
         trailing:
             Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0));
 
     final makeCard = Card(
-	    elevation: 8.0,
-	    margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-	    child: Container(
-		    decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
-		    child: makeListTile,
-	    ),
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+        child: makeListTile,
+      ),
     );
 
     return Container(

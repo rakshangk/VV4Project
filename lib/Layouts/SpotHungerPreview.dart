@@ -69,17 +69,7 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
 
   @override
   Widget build(BuildContext context) {
-	  final topAppBar = AppBar(
-		  elevation: 0.1,
-		  backgroundColor: Color.fromRGBO(64, 75, 96, .9),
-		  title: Text('Spot Hunger Preview'),
-		  actions: <Widget>[
-			  IconButton(
-				  icon: Icon(Icons.list),
-				  onPressed: () {},
-			  )
-		  ],
-	  );
+
 
     final noHungers = new Padding(
       padding: EdgeInsets.only(left: 24.0, right: 24.0),
@@ -134,7 +124,6 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
 
     return new Scaffold(
       key: scaffoldKey,
-      appBar: topAppBar,
       resizeToAvoidBottomPadding: true,
       body: new Container(
         child: Form(

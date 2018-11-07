@@ -44,17 +44,7 @@ class SpotHungerState extends State<SpotHunger> {
       _isReady = true;
     });
   }
-  final topAppBar = AppBar(
-    elevation: 0.1,
-    backgroundColor: Color.fromRGBO(64, 75, 96, .9),
-    title: Text('Spot Hunger'),
-    actions: <Widget>[
-      IconButton(
-        icon: Icon(Icons.list),
-        onPressed: () {},
-      )
-    ],
-  );
+
   Widget _cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
       return const Text(
@@ -96,7 +86,6 @@ class SpotHungerState extends State<SpotHunger> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: topAppBar,
       body: Column(
         children: <Widget>[
           Expanded(

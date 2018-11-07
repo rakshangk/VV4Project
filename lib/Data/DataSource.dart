@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:vv4/Constants/URLConstants.dart';
+import 'package:vv4/Layouts/Home.dart';
 import 'package:vv4/Layouts/ViewHunger.dart';
 import 'package:vv4/Models/SpottedList.dart';
 import 'package:vv4/Models/User.dart';
@@ -41,7 +42,7 @@ class DataSource {
       print(response.toString());
       if (response['m_bIsSuccess']) {
         var route = new MaterialPageRoute(
-          builder: (BuildContext context) => new DashBoard(),
+          builder: (BuildContext context) => new Home(),
         );
         Navigator.of(context).push(route);
       } else {
@@ -67,12 +68,11 @@ class DataSource {
         compressedImage);
   }
 
- /* Future<List<SpottedList>> fetchHungerList(BuildContext context) async {
+ Future<List<SpottedList>> fetchHungerList(BuildContext context) async {
     http.Response response = await http.get(
         URLConstants.strSpotedList);
     var responseJson = json.decode(response.body);
-    return (responseJson as List)
-        .map((p) => SpottedList.fromJson(p))
-        .toList();
-  }*/
+    print(responseJson);
+
+  }
 }
