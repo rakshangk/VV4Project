@@ -22,19 +22,19 @@ class HungerItemListState extends State<HungerItemList> {
   @override
   Widget build(BuildContext context) {
     final makeListTile = ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
         leading: Container(
-          padding: EdgeInsets.only(right: 12.0),
+          padding: EdgeInsets.only(right: 10.0),
           decoration: new BoxDecoration(
               border: new Border(
-                  right: new BorderSide(width: 1.0, color: Colors.white24))),
-          child: new Image(
-            image: new AssetImage(oSpottedList.m_strImage),
-            width: 50.0,
+                  right: new BorderSide(width: 2.0, color: Colors.white24))),
+          child: new Image.network(
+            oSpottedList.m_strImage,
+           width: 60.0,
           ),
         ),
         title: Text(
-          'No of Hungers : ' + oSpottedList.m_HungersCount,
+          'No of Hungers : ' + oSpottedList.m_strHungersCount,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         subtitle: Column(

@@ -12,7 +12,6 @@ class DashBoardLayout extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
 
-    
 
     return new Scaffold(
       resizeToAvoidBottomPadding: false,

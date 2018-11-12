@@ -68,11 +68,7 @@ class DataSource {
         compressedImage);
   }
 
- Future<List<SpottedList>> fetchHungerList(BuildContext context) async {
-    http.Response response = await http.get(
-        URLConstants.strSpotedList);
-    var responseJson = json.decode(response.body);
-    print(responseJson);
-
+  Future<SpottedList> fetchHungerList(){
+    //return  oSession.fetchList(URLConstants.strSpotedList);
   }
 }
