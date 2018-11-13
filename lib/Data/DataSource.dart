@@ -58,7 +58,7 @@ class DataSource {
       String nHungersCount, File strImageFile,File strThumbnailFile ) async {
     Im.Image image = Im.decodeImage(strImageFile.readAsBytesSync());
     Im.Image thumbImage = Im.copyResize(image, 120);
-    var compressedImage = new File(strThumbnailFile.path)..writeAsBytesSync(Im.encodeJpg(image, quality: 25));
+    var compressedImage = new File(strImageFile.path)..writeAsBytesSync(Im.encodeJpg(image, quality: 25));
     var ThumbnailImage = new File(strThumbnailFile.path)..writeAsBytesSync(Im.encodeJpg(thumbImage, quality: 25));
 
     oSession.doMultipartRequest(
