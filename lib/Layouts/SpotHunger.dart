@@ -18,15 +18,10 @@ void logError(String code, String message) =>
 
 class SpotHungerState extends State<SpotHunger> {
   List<CameraDescription> cameras;
-  CameraController controller;
+  CameraController m_oCameraController;
   bool _isReady = false;
-  String imagePath;
-  String videoPath;
-  String thumbnailPath;
-  String filePath;
-  String fileTpath;
-  VideoPlayerController videoController;
-  VoidCallback videoPlayerListener;
+  String StrCapturedImageFilePath;
+  String StrThumbnailImageFilePath;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -39,8 +34,8 @@ class SpotHungerState extends State<SpotHunger> {
   Future<void> _setupCameras() async {
     try {
       cameras = await availableCameras();
-      controller = new CameraController(cameras[0], ResolutionPreset.high);
-      await controller.initialize();
+      m_oCameraController = new CameraController(cameras[0], ResolutionPreset.high);
+      await m_oCameraController.initialize();
     } on CameraException catch (_) {}
     if (!mounted) return;
     setState(() {
@@ -49,7 +44,7 @@ class SpotHungerState extends State<SpotHunger> {
   }
 
   Widget _cameraPreviewWidget() {
-    if (controller == null || !controller.value.isInitialized) {
+    if (m_oCameraController == null || !m_oCameraController.value.isInitialized) {
       return const Text(
         'Tap a camera',
         style: TextStyle(
@@ -60,8 +55,8 @@ class SpotHungerState extends State<SpotHunger> {
       );
     } else {
       return AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
-        child: CameraPreview(controller),
+        aspectRatio: m_oCameraController.value.aspectRatio,
+        child: CameraPreview(m_oCameraController),
       );
     }
   }
@@ -76,7 +71,7 @@ class SpotHungerState extends State<SpotHunger> {
           IconButton(
             icon: const Icon(Icons.camera_enhance),
             color: Colors.white,
-            onPressed: controller != null && controller.value.isInitialized
+            onPressed: m_oCameraController != null && m_oCameraController.value.isInitialized
                 ? onTakePictureButtonPressed
                 : null,
           ),
@@ -102,7 +97,7 @@ class SpotHungerState extends State<SpotHunger> {
               decoration: BoxDecoration(
                 color: Colors.black,
                 border: Border.all(
-                  color: controller != null && controller.value.isRecordingVideo
+                  color: m_oCameraController != null && m_oCameraController.value.isRecordingVideo
                       ? Colors.redAccent
                       : Colors.grey,
                   width: 3.0,
@@ -121,72 +116,44 @@ class SpotHungerState extends State<SpotHunger> {
   void showInSnackBar(String message) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
   }
-
-  void onNewCameraSelected(CameraDescription cameraDescription) async {
-    if (controller != null) {
-      await controller.dispose();
-    }
-    controller = CameraController(cameraDescription, ResolutionPreset.high);
-
-    // If the controller is updated then update the UI.
-    controller.addListener(() {
-      if (mounted) setState(() {});
-      if (controller.value.hasError) {
-        showInSnackBar('Camera error ${controller.value.errorDescription}');
-      }
-    });
-
-    try {
-      await controller.initialize();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-    }
-
-    if (mounted) {
-      setState(() {});
-    }
-  }
+  
 
   void onTakePictureButtonPressed() {
-    takePicture().then(( filePath) {
+    takePicture().then(( StrCapturedImageFilePath) {
       if (mounted) {
-        setState(() {
-          imagePath = filePath;
-          thumbnailPath= fileTpath;
-        });
-        if (filePath != null) {
+        if (StrCapturedImageFilePath != null) {
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (__) => new SpotHungerPreview(imagePath:imagePath,thumbnailPath:thumbnailPath,)));
+                  builder: (__) => new SpotHungerPreview(StrCapturedImageFilePath:StrCapturedImageFilePath,StrThumbnailImageFilePath:StrThumbnailImageFilePath,)));
         }
       }
     });
   }
 
   Future<String> takePicture() async {
-    if (!controller.value.isInitialized) {
+    if (!m_oCameraController.value.isInitialized) {
       showInSnackBar('Error: select a camera first.');
       return null;
     }
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Pictures/flutter_test';
     await Directory(dirPath).create(recursive: true);
-    filePath = '$dirPath/${timestamp()}.jpg';
-    fileTpath = '$dirPath/${timestamp()}Thumbnail.jpg';
+    StrCapturedImageFilePath = '$dirPath/${timestamp()}.jpg';
+    StrThumbnailImageFilePath = '$dirPath/${timestamp()}Thumbnail.jpg';
 
 
-    if (controller.value.isTakingPicture) {
+    if (m_oCameraController.value.isTakingPicture) {
       return null;
     }
 
     try {
-      await controller.takePicture(filePath);
+      await m_oCameraController.takePicture(StrCapturedImageFilePath);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
     }
-    return filePath;
+    return StrCapturedImageFilePath;
   }
 
   void _showCameraException(CameraException e) {

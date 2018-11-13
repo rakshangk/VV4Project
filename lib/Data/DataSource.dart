@@ -55,11 +55,11 @@ class DataSource {
 
 
   Future<User> spottedHunger(BuildContext context, String strGeoLocation,
-      String nHungersCount, File imageFile,File thumbnailFile ) async {
-    Im.Image image = Im.decodeImage(imageFile.readAsBytesSync());
+      String nHungersCount, File strImageFile,File strThumbnailFile ) async {
+    Im.Image image = Im.decodeImage(strImageFile.readAsBytesSync());
     Im.Image thumbImage = Im.copyResize(image, 120);
-    var compressedImage = new File(imageFile.path)..writeAsBytesSync(Im.encodeJpg(image, quality: 25));
-    var ThumbnailImage = new File(thumbnailFile.path)..writeAsBytesSync(Im.encodeJpg(thumbImage, quality: 25));
+    var compressedImage = new File(strThumbnailFile.path)..writeAsBytesSync(Im.encodeJpg(image, quality: 25));
+    var ThumbnailImage = new File(strThumbnailFile.path)..writeAsBytesSync(Im.encodeJpg(thumbImage, quality: 25));
 
     oSession.doMultipartRequest(
         context,

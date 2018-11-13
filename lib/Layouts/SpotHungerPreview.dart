@@ -9,9 +9,9 @@ import 'package:vv4/main.dart';
 import 'package:image/image.dart' as Imagepkg;
 
 class SpotHungerPreview extends StatefulWidget {
-  String imagePath;
-  String thumbnailPath;
-  SpotHungerPreview({this.imagePath,this.thumbnailPath});
+  String StrCapturedImageFilePath;
+  String StrThumbnailImageFilePath;
+  SpotHungerPreview({this.StrCapturedImageFilePath,this.StrThumbnailImageFilePath});
   @override
   SpotHungerPreviewState createState() => new SpotHungerPreviewState();
 }
@@ -82,9 +82,9 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
         keyboardAppearance: Brightness.dark,
         autofocus: false,
         decoration: InputDecoration(
-          hintText: 'No Of Hunger People',
+          hintText: 'No. Of Hunger People',
           fillColor: Colors.white,
-          labelText: 'No Of Hunger People',
+          labelText: 'No. Of Hunger People',
           contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         ),
@@ -92,7 +92,7 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
           String strValidationMessage;
           if (value.isNotEmpty) {
           } else
-            strValidationMessage = "please enter no of Hunger People ";
+            strValidationMessage = "please enter no. of Hunger People ";
           return strValidationMessage;
         },
       ),
@@ -117,14 +117,14 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
               }
             });
             if (frmKey.currentState.validate()) {
-            	File imageFile=File(widget.imagePath.toString());
-            	File thumbnail=File(widget.thumbnailPath.toString());
+            	File strImageFile=File(widget.StrCapturedImageFilePath.toString());
+            	File strThumbnailFile=File(widget.StrThumbnailImageFilePath.toString());
             	String strLatitude=m_currentLocation['latitude'].toString();
             	String strLongitude=m_currentLocation['longitude'].toString();
             	String strGeoLocation="'"+strLatitude+"&"+strLongitude+"'";
             	String strHungersCount=varNoOfHungers.text;
               MyApp.m_oDataSource_main.spottedHunger(
-                  context, strGeoLocation,strHungersCount,imageFile,thumbnail);
+                  context, strGeoLocation,strHungersCount,strImageFile,strThumbnailFile);
             }
           },
         ),
@@ -141,7 +141,7 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
           child: ListView(
             children: <Widget>[
               SizedBox(
-                child: Image.file(File(widget.imagePath.toString())),
+                child: Image.file(File(widget.StrCapturedImageFilePath.toString())),
                 width: 300.0,
               ),
               SizedBox(height: 8.0),
