@@ -6,10 +6,12 @@ import 'package:location/location.dart';
 import 'package:camera/camera.dart';
 import 'package:vv4/Utils/FormValidation.dart';
 import 'package:vv4/main.dart';
+import 'package:image/image.dart' as Imagepkg;
 
 class SpotHungerPreview extends StatefulWidget {
   String imagePath;
-  SpotHungerPreview({this.imagePath});
+  String thumbnailPath;
+  SpotHungerPreview({this.imagePath,this.thumbnailPath});
   @override
   SpotHungerPreviewState createState() => new SpotHungerPreviewState();
 }
@@ -17,7 +19,7 @@ class SpotHungerPreview extends StatefulWidget {
 List<CameraDescription> cameras;
 
 class SpotHungerPreviewState extends State<SpotHungerPreview> {
-  
+  int _state = 0;
   bool bAutoValidate = false;
   var varNoOfHungers = new TextEditingController();
   FormValidation oFormValadation = new FormValidation();
@@ -103,19 +105,26 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
         shadowColor: Colors.lightBlueAccent.shade100,
         elevation: 5.0,
         child: MaterialButton(
+          child: setUpButtonChild(),
           minWidth: 200.0,
           height: 60.0,
           color: Color.fromRGBO(64, 75, 96, .9),
-          child: Text('Shout for Food', style: TextStyle(color: Colors.white)),
+          elevation: 4.0,
           onPressed: () {
+            setState(() {
+              if (_state == 0) {
+                animateButton();
+              }
+            });
             if (frmKey.currentState.validate()) {
             	File imageFile=File(widget.imagePath.toString());
+            	File thumbnail=File(widget.thumbnailPath.toString());
             	String strLatitude=m_currentLocation['latitude'].toString();
             	String strLongitude=m_currentLocation['longitude'].toString();
             	String strGeoLocation="'"+strLatitude+"&"+strLongitude+"'";
             	String strHungersCount=varNoOfHungers.text;
               MyApp.m_oDataSource_main.spottedHunger(
-                  context, strGeoLocation,strHungersCount,imageFile);
+                  context, strGeoLocation,strHungersCount,imageFile,thumbnail);
             }
           },
         ),
@@ -146,4 +155,33 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
       ),
     );
   }
+
+  Widget setUpButtonChild() {
+    if (_state == 0) {
+      return new Text(
+        "Shout for Food",
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+      );
+    }
+     else {
+      //return Icon(Icons.check, color: Colors.white);
+      return CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white));
+    }
+  }
+
+    void animateButton() {
+    setState(() {
+    _state = 1;
+    });
+
+    Timer(Duration(milliseconds: 3300), () {
+    setState(() {
+    _state = 2;
+    });
+    });
+    }
 }

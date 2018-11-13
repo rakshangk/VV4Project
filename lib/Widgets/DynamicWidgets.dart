@@ -17,4 +17,21 @@ class DynamicWidgets{
         )
     );
   }
+
+  void showAlertDialogHome(BuildContext cxt,String strAlertTitle,String strMessage) {
+    showDialog(
+        context: cxt,
+        builder: (_) => new AlertDialog(
+          title: new Text(strAlertTitle),
+          content: new Text(strMessage),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('OK'), onPressed: () {
+              Navigator.of(cxt).pushNamed('Layouts/Home');
+            },
+            )
+          ],
+        )
+    );
+  }
 }

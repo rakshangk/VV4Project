@@ -22,6 +22,9 @@ class SpotHungerState extends State<SpotHunger> {
   bool _isReady = false;
   String imagePath;
   String videoPath;
+  String thumbnailPath;
+  String filePath;
+  String fileTpath;
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
 
@@ -145,16 +148,17 @@ class SpotHungerState extends State<SpotHunger> {
   }
 
   void onTakePictureButtonPressed() {
-    takePicture().then((String filePath) {
+    takePicture().then(( filePath) {
       if (mounted) {
         setState(() {
           imagePath = filePath;
+          thumbnailPath= fileTpath;
         });
         if (filePath != null) {
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (__) => new SpotHungerPreview(imagePath:imagePath)));
+                  builder: (__) => new SpotHungerPreview(imagePath:imagePath,thumbnailPath:thumbnailPath,)));
         }
       }
     });
@@ -168,7 +172,8 @@ class SpotHungerState extends State<SpotHunger> {
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Pictures/flutter_test';
     await Directory(dirPath).create(recursive: true);
-    final String filePath = '$dirPath/${timestamp()}.jpg';
+    filePath = '$dirPath/${timestamp()}.jpg';
+    fileTpath = '$dirPath/${timestamp()}Thumbnail.jpg';
 
 
     if (controller.value.isTakingPicture) {

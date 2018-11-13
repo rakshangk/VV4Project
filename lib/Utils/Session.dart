@@ -29,25 +29,35 @@ class Session {
   }
 
   void doMultipartRequest(
-      BuildContext context, String url, dynamic data, File imageFile) async {
+      BuildContext context, String url, dynamic data, File imageFile,File thumbnail) async {
+
     print("Data : " + data.toString());
-    var stream =
-        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var streamThumbnail = new http.ByteStream(DelegatingStream.typed(thumbnail.openRead()));
+
     var length = await imageFile.length();
+    var thumbnilLength = await thumbnail.length();
+
     print("Length : " + length.toString());
+    print("Thumbnail Length : " + thumbnilLength.toString());
+
     var request = new http.MultipartRequest("POST", Uri.parse(url));
 
     var multipartFile = new http.MultipartFile('file', stream, length,
         filename: basename(imageFile.path));
+    var multipartThumbnailFile = new http.MultipartFile('file', streamThumbnail, thumbnilLength,
+        filename: basename(thumbnail.path));
 
     request.fields.addAll(data);
     request.files.add(multipartFile);
+    request.files.add(multipartThumbnailFile);
     request.headers.addAll(headers);
 
     var response = await request.send();
     print("Status Code : " + response.statusCode.toString());
     if (response.statusCode == 200)
-      oDynamicWidgets.showAlertDialog(
+      oDynamicWidgets.showAlertDialogHome(
           context, "Shout for Food", "Hunger Spoted...");
     response.stream.transform(utf8.decoder).listen((value) {
       print("Value : " + value);

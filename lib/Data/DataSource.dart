@@ -55,9 +55,12 @@ class DataSource {
 
 
   Future<User> spottedHunger(BuildContext context, String strGeoLocation,
-      String nHungersCount, File imageFile) async {
+      String nHungersCount, File imageFile,File thumbnailFile ) async {
     Im.Image image = Im.decodeImage(imageFile.readAsBytesSync());
+    Im.Image thumbImage = Im.copyResize(image, 120);
     var compressedImage = new File(imageFile.path)..writeAsBytesSync(Im.encodeJpg(image, quality: 25));
+    var ThumbnailImage = new File(thumbnailFile.path)..writeAsBytesSync(Im.encodeJpg(thumbImage, quality: 25));
+
     oSession.doMultipartRequest(
         context,
         URLConstants.strSpotedHunger,
@@ -65,7 +68,7 @@ class DataSource {
           "spotData":
               "{'m_strGeoLocation':$strGeoLocation,'m_nHungersCount':$nHungersCount}"
         },
-        compressedImage);
+        compressedImage,ThumbnailImage);
   }
 
   Future<SpottedList> fetchHungerList(){
