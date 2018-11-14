@@ -121,10 +121,9 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
             	File strThumbnailFile=File(widget.StrThumbnailImageFilePath.toString());
             	String strLatitude=m_currentLocation['latitude'].toString();
             	String strLongitude=m_currentLocation['longitude'].toString();
-            	String strGeoLocation="'"+strLatitude+"&"+strLongitude+"'";
             	String strHungersCount=varNoOfHungers.text;
               MyApp.m_oDataSource_main.spottedHunger(
-                  context, strGeoLocation,strHungersCount,strImageFile,strThumbnailFile);
+                  context, strLatitude,strLongitude,strHungersCount,strImageFile,strThumbnailFile);
             }
           },
         ),

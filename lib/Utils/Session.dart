@@ -45,10 +45,10 @@ class Session {
 
     var request = new http.MultipartRequest("POST", Uri.parse(url));
 
-    var multipartFile = new http.MultipartFile('file', stream, length,
+    var multipartFile = new http.MultipartFile('largePreviewFile', stream, length,
         filename: basename(imageFile.path));
     var multipartThumbnailFile = new http.MultipartFile(
-        'file', streamThumbnail, thumbnilLength,
+        'thumbnailFile', streamThumbnail, thumbnilLength,
         filename: basename(thumbnail.path));
 
     request.fields.addAll(data);

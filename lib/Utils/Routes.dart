@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vv4/Layouts/HungerListDetails.dart';
 import 'package:vv4/Layouts/SignUpLayout.dart';
 import 'package:vv4/Layouts/SplashLayout.dart';
 import 'package:vv4/Layouts/SignInLayout.dart';
@@ -15,6 +16,7 @@ final routes = {
 	'Layouts/SpotHunger'            :        (BuildContext context)	=> new SpotHunger(),
 	'Layouts/DashBoard'             :        (BuildContext context)	=> new DashBoard(),
 	'Layouts/Home'                  :        (BuildContext context)	=> new Home(),
+	'Layouts/HungerListDetails'     :        (BuildContext context)	=> new HungerListDetails(),
 	'Layouts/ViewHunger'            :        (BuildContext context)	=> new ViewHunger(),
 	'Layouts/SpotHungerPreview'     :        (BuildContext context)	=> new SpotHungerPreview(),
 	'/'                             :        (BuildContext context) => new Splash(),

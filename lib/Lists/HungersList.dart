@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vv4/Layouts/HungerListDetails.dart';
 import 'package:vv4/Models/SpottedList.dart';
+import 'package:vv4/main.dart';
 
 class HungerItemList extends StatefulWidget
 {
@@ -25,6 +27,11 @@ class HungerItemListState extends State<HungerItemList>
 	@override
 	Widget build (BuildContext context)
 	{
+		onTappedListDetails()
+		{
+			Navigator.of(context).pushNamed('Layouts/HungerListDetails');
+
+		}
 
 		final makeListTile = ListTile (
 				contentPadding: EdgeInsets.symmetric (horizontal: 10.0, vertical: 20.0),
@@ -66,7 +73,10 @@ class HungerItemListState extends State<HungerItemList>
 					],
 				),
 				trailing:
-				Icon (Icons.keyboard_arrow_right, color: Colors.white, size: 30.0));
+				Icon (Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
+			  onTap: onTappedListDetails,
+
+		);
 
 		final makeCard = Card (
 			elevation: 8.0,
@@ -82,4 +92,6 @@ class HungerItemListState extends State<HungerItemList>
 			child: makeCard,
 		);
 	}
+
+
 }
