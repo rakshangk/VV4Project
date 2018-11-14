@@ -71,7 +71,7 @@ class DataSource {
         compressedImage,ThumbnailImage);
   }
 
-  Future<SpottedList> fetchHungerList(){
-    //return  oSession.fetchList(URLConstants.strSpotedList);
+  Future<Lists> fetchHungerList(){
+    return  oSession.fetchList(URLConstants.strSpotedList);
   }
 }

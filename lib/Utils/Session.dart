@@ -72,7 +72,23 @@ class Session {
     }
   }
 
+  Future<Lists> fetchList (String strSpotedList)
+  async {
+    final response = await http.get (strSpotedList, headers: headers);
+    updateCookie (response);
+    print ("Response : " + response.body);
+    if (response.statusCode == 200)
+    {
+      // If server returns an OK response, parse the JSON
 
+      return Lists.fromJson (json.decode (response.body));
+    }
+    else
+    {
+      // If that response was not OK, throw an error.
+      throw Exception ('Failed to load post');
+    }
+  }
 
   void updateCookie(http.Response response) {
     String rawCookie = response.headers['set-cookie'];

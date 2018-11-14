@@ -9,14 +9,13 @@ import 'package:vv4/Layouts/ViewHunger.dart';
 import 'package:vv4/Layouts/Home.dart';
 
 final routes = {
-  'Layouts/SignUpLayout': (BuildContext context) => new SignUp(),
-  'Layouts/SignInLayout': (BuildContext context) => new SignIn(),
-  'Layouts/SplashLayout': (BuildContext context) => new Splash(),
-  'Layouts/SpotHunger': (BuildContext context) => new SpotHunger(),
-  'Layouts/DashBoard': (BuildContext context) => new DashBoard(),
-  'Layouts/Home': (BuildContext context) => new Home(),
-  'Layouts/ViewHunger': (BuildContext context) => new ViewHunger(),
-  'Layouts/SpotHungerPreview': (BuildContext context) =>
-      new SpotHungerPreview(),
-  '/': (BuildContext context) => new Splash(),
+	'Layouts/SignUpLayout'          :        (BuildContext context)	=> new SignUp(),
+	'Layouts/SignInLayout'          :        (BuildContext context)	=> new SignIn(),
+	'Layouts/SplashLayout'          :        (BuildContext context)	=> new Splash(),
+	'Layouts/SpotHunger'            :        (BuildContext context)	=> new SpotHunger(),
+	'Layouts/DashBoard'             :        (BuildContext context)	=> new DashBoard(),
+	'Layouts/Home'                  :        (BuildContext context)	=> new Home(),
+	'Layouts/ViewHunger'            :        (BuildContext context)	=> new ViewHunger(),
+	'Layouts/SpotHungerPreview'     :        (BuildContext context)	=> new SpotHungerPreview(),
+	'/'                             :        (BuildContext context) => new Splash(),
 };
