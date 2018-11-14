@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:camera/camera.dart';
 import 'package:vv4/Utils/FormValidation.dart';
-import 'package:vv4/Widgets/DynamicWidgets.dart';
 import 'package:vv4/main.dart';
 import 'package:image/image.dart' as Imagepkg;
-
 
 class SpotHungerPreview extends StatefulWidget {
   String StrCapturedImageFilePath;
@@ -27,7 +25,6 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
   FormValidation oFormValadation = new FormValidation();
   final GlobalKey<FormState> frmKey = GlobalKey<FormState>();
   var strNoOFHungers = new TextEditingController();
-  DynamicWidgets oDynamicWidgets = new DynamicWidgets();
 
   //Location
   Map<String, double> m_startLocation;
@@ -107,20 +104,28 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
         borderRadius: BorderRadius.circular(0.0),
         shadowColor: Colors.lightBlueAccent.shade100,
         elevation: 5.0,
-          child: MaterialButton(
+        child: MaterialButton(
           child: setUpButtonChild(),
           minWidth: 200.0,
           height: 60.0,
           color: Color.fromRGBO(64, 75, 96, .9),
           elevation: 4.0,
           onPressed: () {
-            sendHungerData();
             setState(() {
               if (_state == 0) {
                 animateButton();
-               // sendHungerDate();
               }
             });
+            if (frmKey.currentState.validate()) {
+            	File strImageFile=File(widget.StrCapturedImageFilePath.toString());
+            	File strThumbnailFile=File(widget.StrThumbnailImageFilePath.toString());
+            	String strLatitude=m_currentLocation['latitude'].toString();
+            	String strLongitude=m_currentLocation['longitude'].toString();
+            	String strGeoLocation="'"+strLatitude+"&"+strLongitude+"'";
+            	String strHungersCount=varNoOfHungers.text;
+              MyApp.m_oDataSource_main.spottedHunger(
+                  context, strGeoLocation,strHungersCount,strImageFile,strThumbnailFile);
+            }
           },
         ),
       ),
@@ -178,19 +183,5 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
     _state = 2;
     });
     });
-
-    }
-
-    void sendHungerData(){
-      if (frmKey.currentState.validate()) {
-        File strImageFile=File(widget.StrCapturedImageFilePath.toString());
-        File strThumbnailFile=File(widget.StrThumbnailImageFilePath.toString());
-        String strLatitude=m_currentLocation['latitude'].toString();
-        String strLongitude=m_currentLocation['longitude'].toString();
-        String strGeoLocation="'"+strLatitude+"&"+strLongitude+"'";
-        String strHungersCount=varNoOfHungers.text;
-        MyApp.m_oDataSource_main.spottedHunger(
-            context, strLatitude,strLongitude,strHungersCount,strImageFile,strThumbnailFile);
-      }
     }
 }

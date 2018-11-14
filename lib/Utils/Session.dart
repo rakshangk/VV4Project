@@ -40,15 +40,15 @@ class Session {
     var length = await imageFile.length();
     var thumbnilLength = await thumbnail.length();
 
-    print("Main Image Length : " + length.toString());
+    print("Length : " + length.toString());
     print("Thumbnail Length : " + thumbnilLength.toString());
 
     var request = new http.MultipartRequest("POST", Uri.parse(url));
 
-    var multipartFile = new http.MultipartFile('largePreviewFile', stream, length,
+    var multipartFile = new http.MultipartFile('file', stream, length,
         filename: basename(imageFile.path));
     var multipartThumbnailFile = new http.MultipartFile(
-        'thumbnailFile', streamThumbnail, thumbnilLength,
+        'file', streamThumbnail, thumbnilLength,
         filename: basename(thumbnail.path));
 
     request.fields.addAll(data);
@@ -72,29 +72,28 @@ class Session {
     }
   }
 
-  Future<Lists> fetchList (String strSpotedList)
-  async {
-    final response = await http.get (strSpotedList,);
+  Future<Lists> fetchList (String strSpotedList,/*String strLatitude,String strLongitude*/) async {
+    final response = await http.get (strSpotedList, headers: headers,
+        //body: {"currentLatitude": strLatitude, "currentLongitude": strLongitude}
+         );
+    updateCookie (response);
     print ("Response : " + response.body);
     if (response.statusCode == 200)
     {
-      // If server returns an OK response, parse the JSON
-
       return Lists.fromJson (json.decode (response.body));
     }
     else
     {
-      // If that response was not OK, throw an error.
       throw Exception ('Failed to load post');
     }
   }
 
-  void updateCookie(http.Response response) {
-    String rawCookie = response.headers['set-cookie'];
-    if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
+  void updateCookie(http.Response oResponse) {
+    String strCookie = oResponse.headers['set-cookie'];
+    if (strCookie != null) {
+      int index = strCookie.indexOf(';');
       headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+          (index == -1) ? strCookie : strCookie.substring(0, index);
       print("Header" + headers.toString());
     }
   }

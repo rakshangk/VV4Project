@@ -8,6 +8,7 @@ void main ()
 class MyApp extends StatelessWidget
 {
 	static DataSource       m_oDataSource_main = new DataSource();
+	static bool             m_b_IsLoggedIn=false;
 
 	@override
 	Widget build (BuildContext context)
