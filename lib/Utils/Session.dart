@@ -40,15 +40,15 @@ class Session {
     var length = await imageFile.length();
     var thumbnilLength = await thumbnail.length();
 
-    print("Length : " + length.toString());
+    print("Main Image Length : " + length.toString());
     print("Thumbnail Length : " + thumbnilLength.toString());
 
     var request = new http.MultipartRequest("POST", Uri.parse(url));
 
-    var multipartFile = new http.MultipartFile('file', stream, length,
+    var multipartFile = new http.MultipartFile('largePreviewFile', stream, length,
         filename: basename(imageFile.path));
     var multipartThumbnailFile = new http.MultipartFile(
-        'file', streamThumbnail, thumbnilLength,
+        'thumbnailFile', streamThumbnail, thumbnilLength,
         filename: basename(thumbnail.path));
 
     request.fields.addAll(data);
@@ -74,8 +74,7 @@ class Session {
 
   Future<Lists> fetchList (String strSpotedList)
   async {
-    final response = await http.get (strSpotedList, headers: headers);
-    updateCookie (response);
+    final response = await http.get (strSpotedList,);
     print ("Response : " + response.body);
     if (response.statusCode == 200)
     {

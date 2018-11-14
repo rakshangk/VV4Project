@@ -18,31 +18,33 @@ class Lists
 
 class ImageFile
 {
-	String m_strFilePath;
+	String m_strFileId;
 
 	ImageFile ({
-		this.m_strFilePath,
+		this.m_strFileId,
 	});
 
 	factory ImageFile.fromJson(Map<String, dynamic> json) {
 		return ImageFile (
-			m_strFilePath: json['m_strFilePath'],
+			m_strFileId: json['m_strFileId'],
 		);
 	}
 }
 
 class SpottedList
 {
-	final String m_strGeoLocation;
+	final double m_nLatitude;
+	final double m_nLongitude;
 	final int m_strHungersCount;
 	final ImageFile oImageFile;
 
-	SpottedList ({this.m_strHungersCount, this.m_strGeoLocation, this.oImageFile});
+	SpottedList ({this.m_strHungersCount, this.m_nLatitude,this.m_nLongitude, this.oImageFile});
 
 	factory SpottedList.fromJson(Map<String, dynamic> json) {
 		return SpottedList (
 			m_strHungersCount: json["m_nHungersCount"],
-			m_strGeoLocation: json['m_strGeoLocation'] as String,
+			m_nLatitude: json['m_nLatitude'] as double,
+			m_nLongitude: json['m_nLongitude'] as double,
 			oImageFile: ImageFile.fromJson (json['m_oFileDetails']),
 		);
 	}

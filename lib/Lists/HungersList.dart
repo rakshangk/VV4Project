@@ -34,7 +34,7 @@ class HungerItemListState extends State<HungerItemList>
 							border: new Border(
 									right: new BorderSide(width: 2.0, color: Colors.white24))),
 					child: new Image.network(
-						oSpottedList.oImageFile.m_strFilePath,
+						'https://s3-ap-southeast-1.amazonaws.com/vv4/thumbnails/'+oSpottedList.oImageFile.m_strFileId+'.jpg',
 						width: 60.0,
 					),
 				),
@@ -47,7 +47,7 @@ class HungerItemListState extends State<HungerItemList>
 						Row (
 							children: <Widget>[
 								Text (
-									oSpottedList.m_strGeoLocation,
+									'Lat :' + oSpottedList.m_nLatitude.toString(),
 									style: TextStyle (
 											color: Colors.white, fontWeight: FontWeight.bold),
 								),
@@ -55,11 +55,14 @@ class HungerItemListState extends State<HungerItemList>
 						),
 						Row (
 							children: <Widget>[
-								Text ('Address : ' + 'ABC',
-										style: TextStyle (
-												color: Colors.white, fontWeight: FontWeight.bold))
+								Text (
+									'Lan :' + oSpottedList.m_nLongitude.toString(),
+									style: TextStyle (
+											color: Colors.white, fontWeight: FontWeight.bold),
+								),
 							],
 						),
+
 					],
 				),
 				trailing:

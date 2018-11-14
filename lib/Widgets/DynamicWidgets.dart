@@ -43,4 +43,20 @@ class DynamicWidgets
         )
     );
   }
+  void showProgressDialog(BuildContext context)
+  {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      child: new Dialog(
+        child: new Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            new CircularProgressIndicator(),
+            new Text("Loading..."),
+          ],
+        ),
+      ),
+    );
+  }
 }

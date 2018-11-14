@@ -15,7 +15,7 @@ class SplashLayout extends State<Splash>
 	{
 		return new SplashScreen(
 			seconds: 7,
-			navigateAfterSeconds: 'Layouts/SignInLayout',
+			navigateAfterSeconds: 'Layouts/Home',
 			title: new Text(
 				'We Volunter For',
 				style: new TextStyle(

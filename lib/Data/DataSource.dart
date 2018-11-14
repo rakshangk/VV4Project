@@ -54,7 +54,7 @@ class DataSource {
 
 
 
-  Future<User> spottedHunger(BuildContext context, String strGeoLocation,
+  Future<User> spottedHunger(BuildContext context, String strLatitude,String strLongitude,
       String nHungersCount, File strImageFile,File strThumbnailFile ) async {
     Im.Image image = Im.decodeImage(strImageFile.readAsBytesSync());
     Im.Image thumbImage = Im.copyResize(image, 120);
@@ -66,7 +66,7 @@ class DataSource {
         URLConstants.strSpotedHunger,
         {
           "spotData":
-              "{'m_strGeoLocation':$strGeoLocation,'m_nHungersCount':$nHungersCount}"
+              "{'m_nLatitude':$strLatitude,'m_nLongitude':$strLongitude,'m_nHungersCount':$nHungersCount}"
         },
         compressedImage,ThumbnailImage);
   }
