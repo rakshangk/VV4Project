@@ -30,11 +30,12 @@ class Session {
 
   void doMultipartRequest(
       BuildContext context, String url, dynamic data, File imageFile,File thumbnail) async {
-
     print("Data : " + data.toString());
 
-    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    var streamThumbnail = new http.ByteStream(DelegatingStream.typed(thumbnail.openRead()));
+    var stream = new http.ByteStream(
+        DelegatingStream.typed(imageFile.openRead()));
+    var streamThumbnail = new http.ByteStream(
+        DelegatingStream.typed(thumbnail.openRead()));
 
     var length = await imageFile.length();
     var thumbnilLength = await thumbnail.length();
@@ -46,7 +47,8 @@ class Session {
 
     var multipartFile = new http.MultipartFile('file', stream, length,
         filename: basename(imageFile.path));
-    var multipartThumbnailFile = new http.MultipartFile('file', streamThumbnail, thumbnilLength,
+    var multipartThumbnailFile = new http.MultipartFile(
+        'file', streamThumbnail, thumbnilLength,
         filename: basename(thumbnail.path));
 
     request.fields.addAll(data);
@@ -56,13 +58,20 @@ class Session {
 
     var response = await request.send();
     print("Status Code : " + response.statusCode.toString());
-    if (response.statusCode == 200)
+    if (response.statusCode == 200) {
       oDynamicWidgets.showAlertDialogHome(
           context, "Shout for Food", "Hunger Spoted...");
-    response.stream.transform(utf8.decoder).listen((value) {
-      print("Value : " + value);
-    });
+    }
+    else if (response.statusCode < 200 || response.statusCode > 400 ||
+        json == null) {
+      response.stream.transform(utf8.decoder).listen((value) {
+        print("Value : " + value);
+        oDynamicWidgets.showAlertDialogHome(
+            context, "Shout for Food","Status Code :"+ response.statusCode.toString() + "  Server Error");
+      });
+    }
   }
+
 
 
   void updateCookie(http.Response response) {
