@@ -6,6 +6,7 @@ import 'package:location/location.dart';
 import 'package:camera/camera.dart';
 import 'package:vv4/Utils/FormValidation.dart';
 import 'package:vv4/main.dart';
+import 'package:vv4/Layouts/Home.dart';
 import 'package:image/image.dart' as Imagepkg;
 
 class SpotHungerPreview extends StatefulWidget {
@@ -25,49 +26,8 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
   FormValidation oFormValadation = new FormValidation();
   final GlobalKey<FormState> frmKey = GlobalKey<FormState>();
   var strNoOFHungers = new TextEditingController();
-
-  //Location
-  Map<String, double> m_startLocation;
-  Map<String, double> m_currentLocation;
-  StreamSubscription<Map<String, double>> m_locationSubscription;
-  bool m_bPermission = false;
-  String m_strError;
-  bool m_bcurrentWidget = true;
-  Location m_oLocation = new Location();
-
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-    m_locationSubscription =
-        m_oLocation.onLocationChanged().listen((Map<String, double> result) {
-      setState(() {
-        m_currentLocation = result;
-      });
-    });
-  }
-
-  initPlatformState() async {
-    Map<String, double> location;
-    try {
-      m_bPermission = await m_oLocation.hasPermission();
-      location = await m_oLocation.getLocation();
-      m_strError = null;
-    } on PlatformException catch (e) {
-      if (e.code == 'PERMISSION_DENIED') {
-        m_strError = 'Permission denied';
-      } else if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
-        m_strError =
-            'Permission denied - please ask the user to enable it from the app settings';
-      }
-      location = null;
-    }
-    setState(() {
-      m_startLocation = location;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +79,8 @@ class SpotHungerPreviewState extends State<SpotHungerPreview> {
             if (frmKey.currentState.validate()) {
             	File strImageFile=File(widget.StrCapturedImageFilePath.toString());
             	File strThumbnailFile=File(widget.StrThumbnailImageFilePath.toString());
-            	String strLatitude=m_currentLocation['latitude'].toString();
-            	String strLongitude=m_currentLocation['longitude'].toString();
+            	String strLatitude=HomeLayout.m_currentLocation['latitude'].toString();
+            	String strLongitude=HomeLayout.m_currentLocation['longitude'].toString();
             	String strHungersCount=varNoOfHungers.text;
               MyApp.m_oDataSource_main.spottedHunger(
                   context, strLatitude,strLongitude,strHungersCount,strImageFile,strThumbnailFile);

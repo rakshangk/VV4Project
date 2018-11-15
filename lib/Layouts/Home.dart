@@ -3,7 +3,11 @@ import 'package:vv4/Layouts/DashBoard.dart';
 import 'package:vv4/Layouts/SignInLayout.dart';
 import 'package:vv4/Layouts/SpotHunger.dart';
 import 'package:vv4/Layouts/ViewHunger.dart';
+import 'package:vv4/Utils/NetworkUtil.dart';
 import 'package:vv4/main.dart';
+import 'package:location/location.dart';
+import 'dart:async';
+import 'dart:io';
 
 class Home extends StatefulWidget {
   HomeLayout createState() => new HomeLayout();
@@ -26,8 +30,50 @@ class HomeLayout extends State<Home> {
   }
 
   void _onItemTapped(int index) {
+
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+//Location
+  static Map<String, double> m_startLocation;
+  static Map<String, double> m_currentLocation;
+  StreamSubscription<Map<String, double>> m_locationSubscription;
+  bool m_bPermission = false;
+  String m_strError;
+  bool m_bcurrentWidget = true;
+  Location m_oLocation = new Location();
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+    m_locationSubscription =
+        m_oLocation.onLocationChanged().listen((Map<String, double> result) {
+          setState(() {
+            m_currentLocation = result;
+          });
+        });
+  }
+
+  initPlatformState() async {
+    Map<String, double> location;
+    try {
+      m_bPermission = await m_oLocation.hasPermission();
+      location = await m_oLocation.getLocation();
+      m_strError = null;
+    }  catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        m_strError = 'Permission denied';
+      } else if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
+        m_strError =
+        'Permission denied - please ask the user to enable it from the app settings';
+      }
+      location = null;
+    }
+    setState(() {
+      m_startLocation = location;
     });
   }
 
@@ -39,7 +85,7 @@ class HomeLayout extends State<Home> {
       title: Text('VV4'),
       actions: <Widget>[
         IconButton(
-          icon: Icon(MyApp.m_b_IsLoggedIn==true ? Icons.power_settings_new : Icons.power),
+          icon: Icon(MyApp.m_b_IsLoggedIn==true ? Icons.verified_user : Icons.error_outline),
           tooltip: MyApp.m_b_IsLoggedIn==true? 'Sign Out' : 'Sign In',
           onPressed: () {
             if (MyApp.m_b_IsLoggedIn==false) {
