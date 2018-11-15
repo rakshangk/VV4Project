@@ -29,7 +29,16 @@ class HungerItemListState extends State<HungerItemList>
 	{
 		onTappedListDetails()
 		{
-			Navigator.of(context).pushNamed('Layouts/HungerListDetails');
+			var route = new MaterialPageRoute(
+				builder: (BuildContext context) => new HungerListDetails(
+					m_strImagePreview: 'https://s3-ap-southeast-1.amazonaws.com/vv4/images/'+oSpottedList.oImageFile.m_strFileId+'.jpg',
+					m_strLatitude: oSpottedList.m_nLatitude.toString(),
+					m_strLongitude: oSpottedList.m_nLongitude.toString(),
+					m_strHungersCount:oSpottedList.m_strHungersCount.toString(),
+				),
+			);
+			Navigator.of(context).push(route);
+			//Navigator.of(context).pushNamed('Layouts/HungerListDetails');
 
 		}
 
@@ -54,16 +63,7 @@ class HungerItemListState extends State<HungerItemList>
 						Row (
 							children: <Widget>[
 								Text (
-									'Lat :' + oSpottedList.m_nLatitude.toString(),
-									style: TextStyle (
-											color: Colors.white, fontWeight: FontWeight.bold),
-								),
-							],
-						),
-						Row (
-							children: <Widget>[
-								Text (
-									'Lan :' + oSpottedList.m_nLongitude.toString(),
+									'Distance :' + "",
 									style: TextStyle (
 											color: Colors.white, fontWeight: FontWeight.bold),
 								),
