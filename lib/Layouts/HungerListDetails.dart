@@ -1,56 +1,38 @@
-import 'dart:async';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
-import 'package:vv4/Models/SpottedList.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:geocoder/geocoder.dart';
+
 
 class HungerListDetails extends StatefulWidget {
-  final String m_strImagePreview, m_strLatitude, m_strLongitude, m_strHungersCount;
-
+  String m_strImagePreview, m_strLatitude, m_strLongitude, m_strHungersCount;
   HungerListDetails({Key key, this.m_strImagePreview, this.m_strLatitude, this.m_strLongitude, this.m_strHungersCount}) : super(key: key);
-
   HungerListDetailsState createState() {
     return new HungerListDetailsState();
   }
 }
 
-class HungerListDetailsState extends State<HungerListDetails> {
-  Map<String, double> m_startLocation;
-  Map<String, double> m_currentLocation;
-  bool m_bPermission = false;
-  String m_strError;
-  bool m_bcurrentWidget = true;
-  Location m_oLocation = new Location();
-  StreamSubscription<Map<String, double>> m_locationSubscription;
+var strGoogleMapAPIKey = 'AIzaSyAsbdSE9FzMzI3xyDzkzL73rZG3zvMG7sE';
 
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-    m_locationSubscription = m_oLocation.onLocationChanged().listen((Map<String, double> result) {
-      setState(() {
-        m_currentLocation = result;
-      });
-    });
+class HungerListDetailsState extends State<HungerListDetails> {
+  fetchAddress()
+  {
+    final coordinates = new Coordinates(1.10, 45.50);
+    var addresses =  Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses;
+    print("${first} : ${first}");
   }
 
-  initPlatformState() async {
-    Map<String, double> location;
-    try {
-      m_bPermission = await m_oLocation.hasPermission();
-      location = await m_oLocation.getLocation();
-      m_strError = null;
-    } catch (e) {
-      if (e.code == 'PERMISSION_DENIED') {
-        m_strError = 'Permission denied';
-      } else if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
-        m_strError = 'Permission denied - please ask the user to enable it from the app settings';
-      }
-      location = null;
+  openMap() async {
+    var url = 'https://www.google.com/maps/search/?api=1&query=${widget.m_strLatitude},${widget.m_strLongitude}';
+    if (Platform.isIOS) {
+      url = 'http://maps.apple.com/?${widget.m_strLatitude},${widget.m_strLongitude}';
     }
-    setState(() {
-      m_startLocation = location;
-    });
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -65,40 +47,57 @@ class HungerListDetailsState extends State<HungerListDetails> {
       ),
       backgroundColor: Color.fromRGBO(64, 75, 96, .9),
     );
-    final imagePreview = new Center(
-      child: new AspectRatio(
-        aspectRatio: 16.0 / 9.0,
-        child: new Container(
-          decoration: new BoxDecoration(
-              color: Colors.black,
-              border: Border.all(
-                color: Color.fromRGBO(64, 75, 96, .9),
-                width: 10.0,
-              ),
-              image: new DecorationImage(
-                fit: BoxFit.fitWidth,
-                alignment: FractionalOffset.topCenter,
-                image: new NetworkImage(widget.m_strImagePreview),
-              )),
+
+    final imagePreview = AspectRatio(
+      aspectRatio: 16 / 9,
+      child: Container(
+        child: Image.network(
+          widget.m_strImagePreview,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.black,
+          border: Border.all(
+            color: Color.fromRGBO(64, 75, 96, .9),
+            width: 10.0,
+          ),
         ),
       ),
     );
 
-    final imageMap = new Center(
-      child: new AspectRatio(
-        aspectRatio: 16.0 / 9.0,
-        child: new Container(
-          decoration: new BoxDecoration(
-              color: Colors.black,
-              border: Border.all(
-                color: Color.fromRGBO(64, 75, 96, .9),
-                width: 10.0,
-              ),
-              image: new DecorationImage(
+    final imageMap = AspectRatio(
+        aspectRatio: 16 / 9,
+        child: Column(
+          children: <Widget>[
+            Container(
+              child: Image.network(
+                "https://maps.googleapis.com/maps/api/staticmap?center=${widget.m_strLatitude},${widget.m_strLongitude}&zoom=18&scale=false&size=600x300&maptype=roadmap&key=AIzaSyCEjl75z4NwuDXoL9hbEVqJ8ec6Zm0tOlw&format=gif&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C${widget.m_strLatitude},${widget.m_strLongitude}",
                 fit: BoxFit.fitWidth,
-                alignment: FractionalOffset.topCenter,
-                image: new NetworkImage("https://maps.googleapis.com/maps/api/staticmap?center=${widget.m_strLatitude},${widget.m_strLongitude}&zoom=18&size=640x400&key=YOUR_API_KEY"),
-              )),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border.all(
+                  color: Color.fromRGBO(64, 75, 96, .9),
+                  width: 10.0,
+                ),
+              ),
+            ),
+          ],
+        ));
+    final buttonSignIn = Padding(
+      padding: EdgeInsets.symmetric(vertical: 0.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(0.0),
+        shadowColor: Colors.lightBlueAccent.shade100,
+        elevation: 5.0,
+        child: MaterialButton(
+          minWidth: 200.0,
+          height: 60.0,
+          color: Color.fromRGBO(64, 75, 96, .9),
+          child: Text('Navigate to Map', style: TextStyle(color: Colors.white)),
+          onPressed: () {
+            //fetchAddress();
+         openMap();
+          },
         ),
       ),
     );
@@ -116,15 +115,28 @@ class HungerListDetailsState extends State<HungerListDetails> {
         fontWeight: FontWeight.bold,
       ),
     );
-    return Scaffold(
-        appBar: appbar,
-        body: Column(
-          children: <Widget>[
-            imagePreview,
-            imageMap,
-            strHungersCount,
-            strAddress,
-          ],
-        ));
+    final AddressColumn = Container(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        children: <Widget>[strHungersCount, strAddress],
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: Color.fromRGBO(64, 75, 96, .9),
+          width: 10.0,
+        ),
+      ),
+    );
+
+    return new Scaffold(
+      resizeToAvoidBottomPadding: true,
+      appBar: appbar,
+      body: new Container(
+        child: ListView(
+          children: <Widget>[imagePreview, imageMap, AddressColumn, buttonSignIn],
+        ),
+      ),
+    );
   }
 }

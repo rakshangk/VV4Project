@@ -3,8 +3,13 @@ import 'package:location/location.dart';
 import 'package:vv4/Data/DataSource.dart';
 import 'package:vv4/Utils/Routes.dart';
 
+
+var myKey = '<yourkeyhere>';
 void main ()
-=> runApp (new MyApp());
+{
+
+	runApp (new MyApp());
+}
 
 class MyApp extends StatelessWidget
 {
