@@ -1,8 +1,8 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/camera" "${PODS_CONFIGURATION_BUILD_DIR}/location" "${PODS_CONFIGURATION_BUILD_DIR}/path_provider" "${PODS_CONFIGURATION_BUILD_DIR}/video_player" "${PODS_ROOT}/../.symlinks/flutter/ios"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/camera" "${PODS_CONFIGURATION_BUILD_DIR}/geocoder" "${PODS_CONFIGURATION_BUILD_DIR}/location" "${PODS_CONFIGURATION_BUILD_DIR}/path_provider" "${PODS_CONFIGURATION_BUILD_DIR}/url_launcher" "${PODS_CONFIGURATION_BUILD_DIR}/video_player" "${PODS_ROOT}/../.symlinks/flutter/ios"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/camera/camera.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/location/location.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/video_player/video_player.framework/Headers"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/camera/camera.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/geocoder/geocoder.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/location/location.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/url_launcher/url_launcher.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/video_player/video_player.framework/Headers"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_LDFLAGS = $(inherited) -framework "Flutter" -framework "camera" -framework "location" -framework "path_provider" -framework "video_player"
+OTHER_LDFLAGS = $(inherited) -framework "Flutter" -framework "camera" -framework "geocoder" -framework "location" -framework "path_provider" -framework "url_launcher" -framework "video_player"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
