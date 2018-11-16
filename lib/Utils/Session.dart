@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:vv4/Models/SpottedList.dart';
 import 'package:vv4/Widgets/DynamicWidgets.dart';
+import 'package:vv4/main.dart';
 
 class Session {
   DynamicWidgets oDynamicWidgets = new DynamicWidgets();
@@ -60,11 +61,13 @@ class Session {
     var response = await request.send();
     print("Status Code : " + response.statusCode.toString());
     if (response.statusCode == 200) {
+      MyApp.n_HungerDataUploadState=2;
       oDynamicWidgets.showAlertDialogHome(
           context, "Shout for Food", "Hunger Spoted...");
     }
     else if (response.statusCode < 200 || response.statusCode > 400 ||
         json == null) {
+      MyApp.n_HungerDataUploadState=3;
       response.stream.transform(utf8.decoder).listen((value) {
         print("Value : " + value);
         oDynamicWidgets.showAlertDialogHome(
