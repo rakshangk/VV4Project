@@ -3,11 +3,11 @@ import 'package:vv4/Layouts/DashBoard.dart';
 import 'package:vv4/Layouts/SignInLayout.dart';
 import 'package:vv4/Layouts/SpotHunger.dart';
 import 'package:vv4/Layouts/ViewHunger.dart';
-import 'package:vv4/Utils/NetworkUtil.dart';
 import 'package:vv4/main.dart';
 import 'package:location/location.dart';
 import 'dart:async';
-import 'dart:io';
+import 'package:vv4/Layouts/Home.dart';
+import 'package:vv4/Widgets/DynamicWidgets.dart';
 
 class Home extends StatefulWidget {
   HomeLayout createState() => new HomeLayout();
@@ -30,7 +30,6 @@ class HomeLayout extends State<Home> {
   }
 
   void _onItemTapped(int index) {
-
     setState(() {
       _selectedIndex = index;
     });
@@ -93,7 +92,10 @@ class HomeLayout extends State<Home> {
               Navigator.of(context).push(route);
             }
             else{
+              DynamicWidgets.showToastAlert(context,"Logged-Out  ");
               MyApp.m_b_IsLoggedIn=false;
+              var route = new MaterialPageRoute(builder: (BuildContext context) => new Home(),);
+              Navigator.of(context).push(route);
             }
           },
         ),

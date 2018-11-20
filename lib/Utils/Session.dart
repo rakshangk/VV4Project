@@ -58,14 +58,12 @@ class Session {
     print("Status Code : " + response.statusCode.toString());
     if (response.statusCode == 200)
     {
-         MyApp.n_HungerDataUploadState=2;
         oDynamicWidgets.showAlertDialogHome(context, "Shout for Food", "Hunger Spoted");
     }
     else if (response.statusCode < 200 || response.statusCode > 400 || json == null)
     {
       response.stream.transform(utf8.decoder).listen((value)
       {
-        MyApp.n_HungerDataUploadState=3;
         print("Value : " + value);
         oDynamicWidgets.showAlertDialogHome(context, "Shout for Food","Status Code :"+ response.statusCode.toString() + "  Server Error");
       });

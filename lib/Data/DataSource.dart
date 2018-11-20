@@ -39,12 +39,14 @@ class DataSource
       print(response.toString());
       if (response['m_bIsSuccess'])
       {
+          DynamicWidgets.showToastAlert(context,"Logged-in as  "+strUsername.toString());
           MyApp.m_b_IsLoggedIn=true;
           var route = new MaterialPageRoute(builder: (BuildContext context) => new Home(),);
           Navigator.of(context).push(route);
       }
       else
       {
+          DynamicWidgets.showToastAlert(context," Please enter valid username and password ");
           m_oDynamicWidgets.showAlertDialog(context, "Login Error", response['m_strResponseMessage']);
       }
     });
@@ -52,7 +54,7 @@ class DataSource
 
   Future<User> spottedHunger(BuildContext context, String strLatitude,String strLongitude,String nHungersCount, File strImageFile,File strThumbnailFile ) async
   {
-    Im.Image      oSpotImage = Im.decodeImage(strImageFile.readAsBytesSync());
+    Im.Image      oSpotImage = Im.decodeImage(await  strImageFile.readAsBytesSync());
     Im.Image      oThumbSpotImage = Im.copyResize(oSpotImage, 120);
     var           compressedImage = new File(strImageFile.path)..writeAsBytesSync(Im.encodeJpg(oSpotImage, quality: 25));
     var           ThumbnailImage = new File(strThumbnailFile.path)..writeAsBytesSync(Im.encodeJpg(oThumbSpotImage, quality: 25));

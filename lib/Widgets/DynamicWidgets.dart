@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DynamicWidgets
 {
@@ -57,6 +58,17 @@ class DynamicWidgets
           ],
         ),
       ),
+    );
+  }
+
+   static void showToastAlert(BuildContext context, String strData)
+  {
+    Fluttertoast.showToast(
+        msg: strData,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 2,
+        textcolor: '#ffffff'
     );
   }
 }

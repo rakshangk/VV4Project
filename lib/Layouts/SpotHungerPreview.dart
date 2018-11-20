@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:camera/camera.dart';
 import 'package:vv4/Utils/FormValidation.dart';
+import 'package:vv4/Utils/Session.dart';
 import 'package:vv4/main.dart';
-import 'package:vv4/Layouts/Home.dart';
-import 'package:image/image.dart' as Imagepkg;
 
 class SpotHungerPreview extends StatefulWidget {
   final Function callback;
@@ -175,7 +174,7 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
       nUploadstate = 1;
     });
 
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 5), () {
       bRevealUploadingState = true;
       PerformUploadHungerDataTasks();
       widget.callback();
@@ -231,15 +230,9 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
       String strLatitude = m_currentLocation['latitude'].toString();
       String strLongitude = m_currentLocation['longitude'].toString();
       String strHungersCount = varNoOfHungers.text;
-      MyApp.m_oDataSource_main.spottedHunger(
-          context,
-          strLatitude,
-          strLongitude,
-          strHungersCount,
-          strImageFile,
-          strThumbnailFile);
+      MyApp.m_oDataSource_main.spottedHunger(context, strLatitude, strLongitude, strHungersCount, strImageFile, strThumbnailFile);
       setState(() {
-        nUploadstate = MyApp.n_HungerDataUploadState;
+        nUploadstate = 2;
       });
   }
 }
