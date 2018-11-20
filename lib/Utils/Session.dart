@@ -33,10 +33,8 @@ class Session {
       BuildContext context, String url, dynamic data, File imageFile,File thumbnail) async {
     print("Data : " + data.toString());
 
-    var stream = new http.ByteStream(
-        DelegatingStream.typed(imageFile.openRead()));
-    var streamThumbnail = new http.ByteStream(
-        DelegatingStream.typed(thumbnail.openRead()));
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var streamThumbnail = new http.ByteStream(DelegatingStream.typed(thumbnail.openRead()));
 
     var length = await imageFile.length();
     var thumbnilLength = await thumbnail.length();
@@ -46,11 +44,9 @@ class Session {
 
     var request = new http.MultipartRequest("POST", Uri.parse(url));
 
-    var multipartFile = new http.MultipartFile('spotImg', stream, length,
-        filename: basename(imageFile.path));
+    var multipartFile = new http.MultipartFile('spotImg', stream, length, filename: basename(imageFile.path));
     print('Image Path $imageFile.path');
-    var multipartThumbnailFile = new http.MultipartFile('spotImgTN', streamThumbnail, thumbnilLength,
-        filename: basename(thumbnail.path));
+    var multipartThumbnailFile = new http.MultipartFile('spotImgTN', streamThumbnail, thumbnilLength, filename: basename(thumbnail.path));
     print('Image Path $thumbnail.path');
 
     request.fields.addAll(data);
@@ -60,18 +56,18 @@ class Session {
 
     var response = await request.send();
     print("Status Code : " + response.statusCode.toString());
-    if (response.statusCode == 200) {
-      MyApp.n_HungerDataUploadState=2;
-      oDynamicWidgets.showAlertDialogHome(
-          context, "Shout for Food", "Hunger Spoted...");
+    if (response.statusCode == 200)
+    {
+         MyApp.n_HungerDataUploadState=2;
+        oDynamicWidgets.showAlertDialogHome(context, "Shout for Food", "Hunger Spoted");
     }
-    else if (response.statusCode < 200 || response.statusCode > 400 ||
-        json == null) {
-      MyApp.n_HungerDataUploadState=3;
-      response.stream.transform(utf8.decoder).listen((value) {
+    else if (response.statusCode < 200 || response.statusCode > 400 || json == null)
+    {
+      response.stream.transform(utf8.decoder).listen((value)
+      {
+        MyApp.n_HungerDataUploadState=3;
         print("Value : " + value);
-        oDynamicWidgets.showAlertDialogHome(
-            context, "Shout for Food","Status Code :"+ response.statusCode.toString() + "  Server Error");
+        oDynamicWidgets.showAlertDialogHome(context, "Shout for Food","Status Code :"+ response.statusCode.toString() + "  Server Error");
       });
     }
   }

@@ -44,6 +44,47 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
   GlobalKey _globalKey = GlobalKey();
   AnimationController _controller;
 
+  //Location
+  static Map<String, double> m_startLocation;
+  static Map<String, double> m_currentLocation;
+  StreamSubscription<Map<String, double>> m_locationSubscription;
+  bool m_bPermission = false;
+  String m_strError;
+  bool m_bcurrentWidget = true;
+  Location m_oLocation = new Location();
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+    m_locationSubscription =
+        m_oLocation.onLocationChanged().listen((Map<String, double> result) {
+          setState(() {
+            m_currentLocation = result;
+          });
+        });
+  }
+
+  initPlatformState() async {
+    Map<String, double> location;
+    try {
+      m_bPermission = await m_oLocation.hasPermission();
+      location = await m_oLocation.getLocation();
+      m_strError = null;
+    }  catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        m_strError = 'Permission denied';
+      } else if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
+        m_strError =
+        'Permission denied - please ask the user to enable it from the app settings';
+      }
+      location = null;
+    }
+    setState(() {
+      m_startLocation = location;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final noHungers = new Padding(
@@ -134,7 +175,7 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
       nUploadstate = 1;
     });
 
-    Timer(Duration(milliseconds: 3600), () {
+    Timer(Duration(seconds: 1), () {
       bRevealUploadingState = true;
       PerformUploadHungerDataTasks();
       widget.callback();
@@ -187,10 +228,8 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
       File(widget.StrCapturedImageFilePath.toString());
       File strThumbnailFile =
       File(widget.StrThumbnailImageFilePath.toString());
-      String strLatitude =
-      HomeLayout.m_currentLocation['latitude'].toString();
-      String strLongitude =
-      HomeLayout.m_currentLocation['longitude'].toString();
+      String strLatitude = m_currentLocation['latitude'].toString();
+      String strLongitude = m_currentLocation['longitude'].toString();
       String strHungersCount = varNoOfHungers.text;
       MyApp.m_oDataSource_main.spottedHunger(
           context,
