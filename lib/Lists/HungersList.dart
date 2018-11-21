@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vv4/Layouts/HungerListDetails.dart';
 import 'package:vv4/Models/SpottedList.dart';
-import 'package:vv4/main.dart';
+import 'package:geocoder/geocoder.dart';
 
 class HungerItemList extends StatefulWidget
 {
@@ -24,9 +24,19 @@ class HungerItemListState extends State<HungerItemList>
 
 	HungerItemListState (this.oSpottedList);
 
+  String m_strAddressLine;
+  fetchAddress(String strLatitude, String strLongitude) async {
+    final coordinates = new Coordinates(double.parse(strLatitude), double.parse(strLongitude));
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    m_strAddressLine = first.addressLine;
+    print("${first.featureName} : ${first.addressLine}");
+  }
+
 	@override
 	Widget build (BuildContext context)
 	{
+    fetchAddress(oSpottedList.m_nLatitude.toString(),oSpottedList.m_nLongitude.toString());
 		onTappedListDetails()
 		{
 			var route = new MaterialPageRoute(
@@ -35,6 +45,7 @@ class HungerItemListState extends State<HungerItemList>
 					m_strLatitude: oSpottedList.m_nLatitude.toString(),
 					m_strLongitude: oSpottedList.m_nLongitude.toString(),
 					m_strHungersCount:oSpottedList.m_strHungersCount.toString(),
+          m_strAddressLine: m_strAddressLine,
 				),
 			);
 			Navigator.of(context).push(route);

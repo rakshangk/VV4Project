@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:geocoder/geocoder.dart';
+
 
 class HungerListDetails extends StatefulWidget {
-  String m_strImagePreview, m_strLatitude, m_strLongitude, m_strHungersCount;
-  HungerListDetails({Key key, this.m_strImagePreview, this.m_strLatitude, this.m_strLongitude, this.m_strHungersCount}) : super(key: key);
+  String m_strImagePreview, m_strLatitude, m_strLongitude, m_strHungersCount,m_strAddressLine;
+  HungerListDetails({Key key, this.m_strImagePreview, this.m_strLatitude, this.m_strLongitude, this.m_strHungersCount,this.m_strAddressLine}) : super(key: key);
   HungerListDetailsState createState() {
     return new HungerListDetailsState();
   }
@@ -14,16 +14,7 @@ class HungerListDetails extends StatefulWidget {
 var strGoogleMapAPIKey = 'AIzaSyAsbdSE9FzMzI3xyDzkzL73rZG3zvMG7sE';
 
 class HungerListDetailsState extends State<HungerListDetails> {
-  var strAddressName;
-  var strAddressLine;
-  fetchAddress() async {
-    final coordinates = new Coordinates(1.10, 45.50);
-    var varAddresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = varAddresses.first;
-    strAddressName = first.featureName;
-    strAddressLine = first.addressLine;
-    print("${first.featureName} : ${first.addressLine}");
-  }
+  
 
   openMap() async {
     var varURL = 'https://www.google.com/maps/search/?api=1&query=${widget.m_strLatitude},${widget.m_strLongitude}';
@@ -91,21 +82,15 @@ class HungerListDetailsState extends State<HungerListDetails> {
     );
 
 
-    final strAddressLine1 = Text(
-      'Hi',
+    final strAddress = Text(
+      widget.m_strAddressLine.toString(),
       style: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.bold,
       ),
     );
 
-    final strAddressLine2 = Text(
-      'Hello',
-      style: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-      ),
-    );
+    
 
     final strHungersCount = Text(
       '#${widget.m_strHungersCount} Person(s)',
@@ -118,7 +103,7 @@ class HungerListDetailsState extends State<HungerListDetails> {
     final AddressColumn = Container(
       padding: EdgeInsets.all(20.0),
       child: Column(
-        children: <Widget>[strHungersCount, strAddressLine1, strAddressLine2],
+        children: <Widget>[strHungersCount, strAddress],
       ),
       decoration: BoxDecoration(
         color: Colors.white,
