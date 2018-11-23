@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:vv4/Layouts/DashBoard.dart';
 import 'package:vv4/Widgets/DynamicWidgets.dart';
 import 'package:vv4/Utils/Session.dart';
-import 'package:image/image.dart' as Im;
+import 'package:image/image.dart' as ImagePackage;
 import 'package:vv4/main.dart';
 
 
@@ -54,10 +54,13 @@ class DataSource
 
   Future<User> spottedHunger(BuildContext context, String strLatitude,String strLongitude,String nHungersCount, File strImageFile,File strThumbnailFile ) async
   {
-    Im.Image      oSpotImage = Im.decodeImage(await  strImageFile.readAsBytesSync());
-    Im.Image      oThumbSpotImage = Im.copyResize(oSpotImage, 120);
-    var           compressedImage = new File(strImageFile.path)..writeAsBytesSync(Im.encodeJpg(oSpotImage, quality: 25));
-    var           ThumbnailImage = new File(strThumbnailFile.path)..writeAsBytesSync(Im.encodeJpg(oThumbSpotImage, quality: 25));
+    var strCapturedImageSize =await strImageFile.length();
+    print("CapturedImageSize : " + strCapturedImageSize.toString());
+
+    ImagePackage.Image      oSpotImage = ImagePackage.decodeImage(await  strImageFile.readAsBytesSync());
+    ImagePackage.Image      oThumbSpotImage = ImagePackage.copyResize(oSpotImage, 120);
+    var           compressedImage = new File(strImageFile.path)..writeAsBytesSync(ImagePackage.encodeJpg(oSpotImage, quality: 25));
+    var           ThumbnailImage = new File(strThumbnailFile.path)..writeAsBytesSync(ImagePackage.encodeJpg(oThumbSpotImage, quality: 25));
 
     m_oSession.doMultipartRequest(context,URLConstants.strSpotedHunger,{"spotData":"{'m_nLatitude':$strLatitude,'m_nLongitude':$strLongitude,'m_nHungersCount':$nHungersCount}"},compressedImage,ThumbnailImage);
   }

@@ -18,7 +18,7 @@ void logError(String code, String message) =>
 class SpotHungerState extends State<SpotHunger> {
   List<CameraDescription> cameras;
   CameraController m_oCameraController;
-  bool _isReady = false;
+  bool isCameraReady = false;
   String StrCapturedImageFilePath;
   String StrThumbnailImageFilePath;
 
@@ -27,22 +27,22 @@ class SpotHungerState extends State<SpotHunger> {
   @override
   void initState() {
     super.initState();
-    _setupCameras();
+    setupCameras();
   }
 
-  Future<void> _setupCameras() async {
+  Future<void> setupCameras() async {
     try {
       cameras = await availableCameras();
-      m_oCameraController = new CameraController(cameras[0], ResolutionPreset.high);
+      m_oCameraController = new CameraController(cameras[0], ResolutionPreset.low);
       await m_oCameraController.initialize();
     } on CameraException catch (_) {}
     if (!mounted) return;
     setState(() {
-      _isReady = true;
+      isCameraReady = true;
     });
   }
 
-  Widget _cameraPreviewWidget() {
+  Widget cameraPreviewWidget() {
     if (m_oCameraController == null || !m_oCameraController.value.isInitialized) {
       return const Text(
         'Tap a camera',
@@ -90,17 +90,11 @@ class SpotHungerState extends State<SpotHunger> {
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: Center(
-                  child: _cameraPreviewWidget(),
+                  child: cameraPreviewWidget(),
                 ),
               ),
               decoration: BoxDecoration(
                 color: Colors.black,
-                border: Border.all(
-                  color: m_oCameraController != null && m_oCameraController.value.isRecordingVideo
-                      ? Colors.redAccent
-                      : Colors.grey,
-                  width: 3.0,
-                ),
               ),
             ),
           ),
@@ -140,12 +134,9 @@ class SpotHungerState extends State<SpotHunger> {
     await Directory(dirPath).create(recursive: true);
     StrCapturedImageFilePath = '$dirPath/${timestamp()}.jpg';
     StrThumbnailImageFilePath = '$dirPath/${timestamp()}Thumbnail.jpg';
-
-
     if (m_oCameraController.value.isTakingPicture) {
       return null;
     }
-
     try {
       await m_oCameraController.takePicture(StrCapturedImageFilePath);
     } on CameraException catch (e) {

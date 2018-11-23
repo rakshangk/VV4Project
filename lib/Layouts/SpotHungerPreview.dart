@@ -169,12 +169,14 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
     );
   }
 
-  void PerformUploading() {
-    setState(() {
+  void PerformUploading()
+  {
+    setState(()
+    {
       nUploadstate = 1;
     });
-
-    Timer(Duration(seconds: 5), () {
+    Timer(Duration(seconds:1),()
+    {
       bRevealUploadingState = true;
       PerformUploadHungerDataTasks();
       widget.callback();
@@ -223,10 +225,8 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
   //PerformUploadHungerDataTasks
 
   void PerformUploadHungerDataTasks(){
-      File strImageFile =
-      File(widget.StrCapturedImageFilePath.toString());
-      File strThumbnailFile =
-      File(widget.StrThumbnailImageFilePath.toString());
+      File strImageFile = File(widget.StrCapturedImageFilePath.toString());
+      File strThumbnailFile = File(widget.StrThumbnailImageFilePath.toString());
       String strLatitude = m_currentLocation['latitude'].toString();
       String strLongitude = m_currentLocation['longitude'].toString();
       String strHungersCount = varNoOfHungers.text;

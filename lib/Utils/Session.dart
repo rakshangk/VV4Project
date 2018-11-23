@@ -39,7 +39,7 @@ class Session {
     var length = await imageFile.length();
     var thumbnilLength = await thumbnail.length();
 
-    print("Length : " + length.toString());
+    print("Compressed Length : " + length.toString());
     print("Thumbnail Length : " + thumbnilLength.toString());
 
     var request = new http.MultipartRequest("POST", Uri.parse(url));

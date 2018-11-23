@@ -66,7 +66,7 @@ class DynamicWidgets
     Fluttertoast.showToast(
         msg: strData,
         toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
+        gravity: ToastGravity.CENTER,
         timeInSecForIos: 2,
         textcolor: '#ffffff'
     );
