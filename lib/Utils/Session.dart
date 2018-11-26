@@ -70,10 +70,11 @@ class Session {
     }
   }
 
-  Future<Lists> fetchList (String strSpotedList,/*String strLatitude,String strLongitude*/) async {
-    final response = await http.get (strSpotedList, headers: headers,
-        //body: {"currentLatitude": strLatitude, "currentLongitude": strLongitude}
-         );
+  Future<Lists> fetchList (String strSpotedList, String strLatitude, String strLongitude) async
+  {
+     strSpotedList += "?currentLatitude=" + strLatitude + "&currentLongitude=" + strLongitude+ "&distanceRadius=150000" +  "&startDate=21-Nov-2018 00:00:00";// + "&endDate=23-Nov-2018 00:00:00" ;
+
+    final response = await http.get (strSpotedList, headers: headers);
     updateCookie (response);
     print ("Response : " + response.body);
     if (response.statusCode == 200)

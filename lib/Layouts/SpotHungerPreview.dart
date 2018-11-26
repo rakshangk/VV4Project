@@ -169,42 +169,23 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
     );
   }
 
-  void PerformUploading()
-  {
-    setState(()
-    {
+  void PerformUploading() {
+    setState(() {
       nUploadstate = 1;
     });
-    Timer(Duration(seconds:1),()
-    {
+    Timer(Duration(seconds: 1), () {
       bRevealUploadingState = true;
       PerformUploadHungerDataTasks();
-      widget.callback();
+      //widget.callback();
     });
   }
 
-  Widget buildButtonChild()
-  {
-    if (nUploadstate == 0)
-    {
-      return Text(
-        'Shout for Food',
-        style: TextStyle(color: Colors.white, fontSize: 16.0),
-      );
-    } else if (nUploadstate == 1)
-    {
-      return Text(
-        'Uploading Details.....',
-        style: TextStyle(color: Colors.white, fontSize: 16.0),
-      );
+  Widget buildButtonChild() {
+    if (nUploadstate == 0) {
+      return Text('Shout for Food',style: TextStyle(color: Colors.white, fontSize: 16.0),);
     }
-      else if (nUploadstate == 2)
-      {
-      return Icon(Icons.check, color: Colors.white);
-      }
-      else if (nUploadstate == 3)
-    {
-      return Icon(Icons.error, color: Colors.red);
+    else if (nUploadstate == 1) {
+      return Text('Uploading Details.....',style: TextStyle(color: Colors.white, fontSize: 16.0),);
     }
   }
 
@@ -216,23 +197,16 @@ class SpotHungerPreviewState extends State<SpotHungerPreview>
     }
   }
 
-  void reset() {
-    _width = double.infinity;
-    bRevealUploadingState = false;
-    nUploadstate = 0;
-  }
-
   //PerformUploadHungerDataTasks
 
-  void PerformUploadHungerDataTasks(){
-      File strImageFile = File(widget.StrCapturedImageFilePath.toString());
-      File strThumbnailFile = File(widget.StrThumbnailImageFilePath.toString());
-      String strLatitude = m_currentLocation['latitude'].toString();
-      String strLongitude = m_currentLocation['longitude'].toString();
-      String strHungersCount = varNoOfHungers.text;
-      MyApp.m_oDataSource_main.spottedHunger(context, strLatitude, strLongitude, strHungersCount, strImageFile, strThumbnailFile);
-      setState(() {
-        nUploadstate = 2;
-      });
+  void PerformUploadHungerDataTasks() {
+    File strImageFile = File(widget.StrCapturedImageFilePath.toString());
+    File strThumbnailFile = File(widget.StrThumbnailImageFilePath.toString());
+    String strLatitude = m_currentLocation['latitude'].toString();
+    String strLongitude = m_currentLocation['longitude'].toString();
+    String strHungersCount = varNoOfHungers.text;
+    MyApp.m_oDataSource_main.spottedHunger(context, strLatitude, strLongitude, strHungersCount, strImageFile, strThumbnailFile);
+    //MyApp.m_oDataSource_main.fetchHungerList(m_currentLocation['latitude'].toString(), m_currentLocation['longitude'].toString());
   }
 }
+

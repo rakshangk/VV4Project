@@ -7,6 +7,7 @@ class DynamicWidgets
   {
     showDialog (
         context: cxt,
+        barrierDismissible: false,
         builder: (_)
         =>
         new AlertDialog(
@@ -28,11 +29,13 @@ class DynamicWidgets
   {
     showDialog (
         context: cxt,
+        barrierDismissible: false,
         builder: (_)
         =>
         new AlertDialog(
           title: new Text(strAlertTitle),
           content: new Text(strMessage),
+
           actions: <Widget>[
             new FlatButton(
               child: new Text('OK'), onPressed: ()
@@ -42,22 +45,6 @@ class DynamicWidgets
             )
           ],
         )
-    );
-  }
-  void showProgressDialog(BuildContext context)
-  {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      child: new Dialog(
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            new CircularProgressIndicator(),
-            new Text("Loading..."),
-          ],
-        ),
-      ),
     );
   }
 

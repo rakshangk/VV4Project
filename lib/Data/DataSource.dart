@@ -40,7 +40,8 @@ class DataSource
       if (response['m_bIsSuccess'])
       {
           DynamicWidgets.showToastAlert(context,"Logged-in as  "+strUsername.toString());
-          MyApp.m_b_IsLoggedIn=true;
+          MyApp.m_b_IsLoggedIn = true;
+          MyApp.strUsername = strUsername.toString();
           var route = new MaterialPageRoute(builder: (BuildContext context) => new Home(),);
           Navigator.of(context).push(route);
       }
@@ -62,14 +63,14 @@ class DataSource
     var           compressedImage = new File(strImageFile.path)..writeAsBytesSync(ImagePackage.encodeJpg(oSpotImage, quality: 25));
     var           ThumbnailImage = new File(strThumbnailFile.path)..writeAsBytesSync(ImagePackage.encodeJpg(oThumbSpotImage, quality: 25));
 
-    m_oSession.doMultipartRequest(context,URLConstants.strSpotedHunger,{"spotData":"{'m_nLatitude':$strLatitude,'m_nLongitude':$strLongitude,'m_nHungersCount':$nHungersCount}"},compressedImage,ThumbnailImage);
-  }
+    m_oSession.doMultipartRequest(context,URLConstants.strSpotedHunger,{"spotData":"{'m_nLatitude':$strLatitude,'m_nLongitude':$strLongitude,'m_nHungersCount':$nHungersCount}"},strImageFile,strThumbnailFile);
+}
 
-  Future<Lists> fetchHungerList(/*String strLatitude,String strLongitude*/)
+  Future<Lists> fetchHungerList(String strLatitude,String strLongitude)
   {
     /*print('Latitude :'+strLatitude);
     print('Longitude :'+strLongitude);*/
-    return  m_oSession.fetchList(URLConstants.strSpotedList,/*strLatitude,strLongitude*/);
+    return  m_oSession.fetchList(URLConstants.strSpotedList, strLatitude, strLongitude,);
   }
 
 

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:vv4/Lists/HungersList.dart';
 import 'package:vv4/Models/SpottedList.dart';
@@ -17,7 +15,7 @@ class ViewHungerState extends State<ViewHunger> {
   Session oSession = new Session();
   StreamSubscription<Map<String, double>> m_locationSubscription;
 
-  /*Map<String, double> m_startLocation;
+  Map<String, double> m_startLocation;
   Map<String, double> m_currentLocation;
   bool m_bPermission = false;
   String m_strError;
@@ -28,11 +26,12 @@ class ViewHungerState extends State<ViewHunger> {
   void initState() {
     super.initState();
     initPlatformState();
-    m_locationSubscription = m_oLocation.onLocationChanged().listen((Map<String, double> result) {
-      setState(() {
-        m_currentLocation = result;
-      });
-    });
+    m_locationSubscription =
+        m_oLocation.onLocationChanged().listen((Map<String, double> result) {
+          setState(() {
+            m_currentLocation = result;
+          });
+        });
   }
 
   initPlatformState() async {
@@ -45,53 +44,60 @@ class ViewHungerState extends State<ViewHunger> {
       if (e.code == 'PERMISSION_DENIED') {
         m_strError = 'Permission denied';
       } else if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
-        m_strError = 'Permission denied - please ask the user to enable it from the app settings';
+        m_strError =
+        'Permission denied - please ask the user to enable it from the app settings';
       }
       location = null;
     }
     setState(() {
       m_startLocation = location;
     });
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Opportunities to Feed',
-          style: TextStyle(
-            color: Color.fromRGBO(64, 75, 96, .9),
-            fontWeight: FontWeight.bold,
+      return new Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Opportunities to Feed',
+            style: TextStyle(
+              color: Color.fromRGBO(64, 75, 96, .9),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: Colors.white,
+        ),
+        body: Center(
+          child: FutureBuilder<Lists>(
+            future: MyApp.m_oDataSource_main.fetchHungerList(
+                m_currentLocation['latitude'].toString(),
+                m_currentLocation['longitude'].toString()),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return new Container(
+                  child: Column(
+                    children: <Widget>[
+                      new Expanded(
+                          child: new ListView(
+                            padding: new EdgeInsets.symmetric(vertical: 0.0),
+                            children: snapshot.data.kLists.map((
+                                SpottedList oSpottedList) {
+                              return new HungerItemList(oSpottedList);
+                            }).toList(),
+                          )),
+                    ],
+                  ),
+                );
+              }
+              else if (snapshot == null || snapshot.hasError) {
+                return Text("could not get response");
+              }
+              return CircularProgressIndicator();
+            },
           ),
         ),
-        backgroundColor: Colors.white,
-      ),
-      body: Center(
-        child: FutureBuilder<Lists>(
-          future: MyApp.m_oDataSource_main.fetchHungerList(/*m_currentLocation['latitude'].toString(), m_currentLocation['longitude'].toString()*/),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return new Container(
-                child: Column(
-                  children: <Widget>[
-                    new Expanded(
-                        child: new ListView(
-                      padding: new EdgeInsets.symmetric(vertical: 0.0),
-                      children: snapshot.data.kLists.map((SpottedList oSpottedList) {
-                        return new HungerItemList(oSpottedList);
-                      }).toList(),
-                    )),
-                  ],
-                ),
-              );
-            } else if (snapshot == null || snapshot.hasError) {
-              return Text("could not get response");
-            }
-            return CircularProgressIndicator();
-          },
-        ),
-      ),
-    );
+      );
+    }
   }
-}
+
+
