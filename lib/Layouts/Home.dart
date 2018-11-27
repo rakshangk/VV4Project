@@ -38,10 +38,10 @@ class HomeLayout extends State<Home> {
     });
   }
 
-//Location
-  static Map<String, double> m_startLocation;
-  static Map<String, double> m_currentLocation;
   StreamSubscription<Map<String, double>> m_locationSubscription;
+
+  Map<String, double> m_startLocation;
+  Map<String, double> m_currentLocation;
   bool m_bPermission = false;
   String m_strError;
   bool m_bcurrentWidget = true;
@@ -49,13 +49,10 @@ class HomeLayout extends State<Home> {
 
   @override
   void initState() {
-    super.initState();
-    initPlatformState();
-    m_locationSubscription =
-        m_oLocation.onLocationChanged().listen((Map<String, double> result) {
-      setState(() {
-        m_currentLocation = result;
-      });
+    Timer(Duration(seconds: 50), () {
+      super.initState();
+      initPlatformState();
+      m_locationSubscription = m_oLocation.onLocationChanged().listen((Map<String, double> result) {setState(() {m_currentLocation = result;});});
     });
   }
 
@@ -70,7 +67,7 @@ class HomeLayout extends State<Home> {
         m_strError = 'Permission denied';
       } else if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
         m_strError =
-            'Permission denied - please ask the user to enable it from the app settings';
+        'Permission denied - please ask the user to enable it from the app settings';
       }
       location = null;
     }

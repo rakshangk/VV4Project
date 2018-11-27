@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 
 class ViewHunger extends StatefulWidget {
+
   ViewHungerState createState() => new ViewHungerState();
 }
 
@@ -56,6 +57,10 @@ class ViewHungerState extends State<ViewHunger> {
 
   @override
   Widget build(BuildContext context) {
+    if(m_currentLocation==null)
+      {
+        return  Text("could not get response");
+      }
       return new Scaffold(
         appBar: AppBar(
           title: Text(
