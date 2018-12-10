@@ -28,6 +28,8 @@ dependencies:
   url_launcher: ^4.0.1
   geocoder: ^0.1.1
   fluttertoast: ^2.1.1
+  crypto: ^2.0.6
+  http: ^0.12.0
 
 
 
